@@ -8,6 +8,7 @@
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{underscore}
+\usepackage{todonotes}
 
 \pdfinfo{
   /Title (Machine Learning Cheat Sheet)
@@ -184,6 +185,10 @@ Logistic Function $\sigma = \frac{exp(x)}{1+exp(x)}$
 Classification with linear regression: Use $y = 0$ as class $\mathcal{C_1}$
 and $y = 1$ as class $\mathcal{C_2}$ and then decide a newly estimated $y$ belongs 
 to $\mathcal{C_1}$ if $y < 0.5$.
+
+\subsection{Logistic Regression}
+$\tilde{\mathbf{X}}^T [\sigma(\tilde{\mathbf{X}} \beta) - y] = 0$
+\todo[inline]{Generalized Linear model}
 
 \subsection{Error Functions}
 
