@@ -234,9 +234,29 @@ Assuming different $p$ is basically what makes this so flexible. We can chose e.
 
 
 \section{Kernel}
-Basically, Kernels are a mean to measure distance of two vectors, e.g. we could write $\kappa(\mathbf{x}, \mathbf{y}) = \mathbf{x}^T \mathbf{y}$ which would be the Kernel function for the standard inner product.
+Basically, Kernels are a mean to measure distance, or "similarity" of two vectors. We define:
+
+$(\mathbf{K})_{i,j} = \kappa(\mathbf{x_i}, \mathbf{x_j}) = \vec \phi(\mathbf{x_i})^T \vec \phi(\mathbf{x_j})$.
+
+The $\phi$ are not that important in the end, because we only use the Kernel as is. Sometimes it's even impossible to write them down explicitly.
+
+\begin{tabular}{ l | l }
+\hline
+Linear & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i}^T \mathbf{x_j}$ \\
+\hline
+Polynomial & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = (\mathbf{x_i}^T \mathbf{x_j} + c)^d$ \\
+\hline
+RBF & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{||\mathbf{x_i} - \mathbf{x_j}||^2}{2\sigma^2}\right)$ \\
+\hline
+\end{tabular}
 
 \section{Support Vector Machines}
+Search for the hyperplane separating the data such that the gap is biggest.
+It minimizes the following cost function:
+
+$\mathcal{L}_{SVM} (\mathbf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
+
+This is convex but not differentiable.
 
 \section{Graphical Models}
 Bayes Net: Directed acyclic graph 
