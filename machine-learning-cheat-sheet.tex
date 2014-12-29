@@ -10,6 +10,12 @@
 \usepackage{underscore}
 \usepackage{todonotes}
 
+% Cheatsheet style
+\input{style.tex}
+
+% Shorthand for \bf
+\providecommand{\bf}[1]{\ensuremath{\bf{#1}}}
+
 \pdfinfo{
   /Title (Machine Learning Cheat Sheet)
   /Creator (TeX)
@@ -18,9 +24,6 @@
   /Subject (Machine Learning cheatsheet)
   /Keywords (machinelearning, ml, bayes, regression, classification)
 }
-
-% Cheatsheet style
-\input{style.tex}
 
 % -----------------------------------------------------------------------
 
@@ -46,16 +49,16 @@
 
 % ----------
 \section{Regression}
-  $\mathcal{D}$ is a set of Training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\mathbf{x}_n = \begin{bmatrix} x_{n1} \\ x_{n2} \\ ... \\ x_{nD} \end{bmatrix} $
+  $\mathcal{D}$ is a set of Training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\bf{x}_n = \begin{bmatrix} x_{n1} \\ x_{n2} \\ ... \\ x_{nD} \end{bmatrix} $
 
-  The goal is to predict a $\hat{y}$ given a $\mathbf{x}$.
+  The goal is to predict a $\hat{y}$ given a $\bf{x}$.
 
   Simple linear regression: $y_n \approx \beta_0 + \beta_1 x_{n1}$
 
-  Multiple linear regression: $y_n \approx f(\mathbf{x}_n) := \beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + ... + \beta_D x_{nD}$
+  Multiple linear regression: $y_n \approx f(\bf{x}_n) := \beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + ... + \beta_D x_{nD}$
 
   \subsection{Linear basis function model}
-  $y_n = \beta_0 + \sum_{i=1}^{M} \beta_i \phi_i(\mathbf{x_n}) =  \mathbf{\tilde\phi^T}(\mathbf{x}^T_n) \boldsymbol\beta$.
+  $y_n = \beta_0 + \sum_{i=1}^{M} \beta_i \phi_i(\bf{x_n}) =  \bf{\tilde\phi^T}(\bf{x}^T_n) \boldsymbol\beta$.
   The optimal $\beta$ is given by $\beta = ( \tilde{\Phi}^T \tilde{\Phi})^{-1} \tilde{\Phi}^T y$ where $\tilde{\Phi}$ is a matrix with N rows and the n-th row is $[1, \phi_1(x_n)^T,  ...,  \phi_M(x_n)^T]$.
 
   Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol \Phi}^T \tilde{\boldsymbol\Phi} + \lambda \boldsymbol I)^{-1} \tilde{\boldsymbol\Phi}^T \boldsymbol y$
@@ -68,9 +71,9 @@
 
   Cost function / Loss: $\mathcal{L}(\boldsymbol\beta) = \mathcal{L}(\mathcal{D},\boldsymbol\beta)$
 
-  Mean square error (MSE): $\frac{1}{2N} \sum_{n=1}^{N}\left[y_n-f(\mathbf{x}_i) \right]^2$
+  Mean square error (MSE): $\frac{1}{2N} \sum_{n=1}^{N}\left[y_n-f(\bf{x}_i) \right]^2$
 
-  Mean absolute error (MAE): $\frac{1}{2N} \sum_{n=1}^{N}\left | y_n-f(\mathbf{x}_i) \right |$
+  Mean absolute error (MAE): $\frac{1}{2N} \sum_{n=1}^{N}\left | y_n-f(\bf{x}_i) \right |$
 
   Huber loss: $\mathcal{L}_\delta (a) = \begin{cases}
    \frac{1}{2}{a^2}                   & \text{for } |a| \le \delta, \\
@@ -115,7 +118,7 @@
   to $\mathcal{C_1}$ if $y < 0.5$.
 
   \subsection{Logistic Regression}
-  $\tilde{\mathbf{X}}^T [\sigma(\tilde{\mathbf{X}} \beta) - y] = 0$
+  $\tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - y] = 0$
   \todo[inline]{TODO: Generalized Linear model}
 
   \subsection{Error Functions}
@@ -148,11 +151,11 @@
 
 % ----------
 \section{Maximum Likelihood}
-  The Likelihood Function maps the model parameters to the probability distribution of $\mathbf{y}$:
-  $\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \mathbf{\beta} \mapsto p(\mathbf{y} \mid  \mathbf{\beta})$
-  An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\mathbf{y} \mid \beta) = \prod_n p(y_n \mid \beta)$.
+  The Likelihood Function maps the model parameters to the probability distribution of $\bf{y}$:
+  $\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \bf{\beta} \mapsto p(\bf{y} \mid  \bf{\beta})$
+  An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\bf{y} \mid \beta) = \prod_n p(y_n \mid \beta)$.
 
-  $\mathcal{L}_{lik}$ can be viewed as just another cost function. Maximum likelihood then simply choses the parameters $\mathbf{\beta}$ such that observed data is most likely. $\beta = \argmax_{\text{all} \beta} L(\beta)$
+  $\mathcal{L}_{lik}$ can be viewed as just another cost function. Maximum likelihood then simply choses the parameters $\bf{\beta}$ such that observed data is most likely. $\beta = \argmax_{\text{all} \beta} L(\beta)$
 
   Assuming different $p$ is basically what makes this so flexible. We can chose e.g.:
 
@@ -167,25 +170,25 @@
 \section{Bayesian methods}
   Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
 
-  The \textbf{prior} $p(\mathbf{f}|\mathbf{X})$ encodes our prior belief about the ``true'' model $\mathbf{f}$. The \textbf{likelihood} $p(\mathbf{y}|\mathbf{f})$ measures the probability of our (possibly noisy) observations given the prior.
+  The \textbf{prior} $p(\bf{f}|\bf{X})$ encodes our prior belief about the ``true'' model $\bf{f}$. The \textbf{likelihood} $p(\bf{y}|\bf{f})$ measures the probability of our (possibly noisy) observations given the prior.
 
-  Least-squares tries to find model parameters $\mathbf{\beta}$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\mathbf{\beta}|\mathbf{y})$
+  Least-squares tries to find model parameters $\bf{\beta}$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\bf{\beta}|\bf{y})$
 
 % ----------
 \section{Kernel}
   Basically, Kernels are a mean to measure distance, or ``similarity'' of two vectors. We define:
 
-  $(\mathbf{K})_{i,j} = \kappa(\mathbf{x_i}, \mathbf{x_j}) = \vec \phi(\mathbf{x_i})^T \vec \phi(\mathbf{x_j})$.
+  $(\bf{K})_{i,j} = \kappa(\bf{x_i}, \bf{x_j}) = \vec \phi(\bf{x_i})^T \vec \phi(\bf{x_j})$.
 
   The $\phi$ are not that important in the end, because we only use the Kernel as is. Sometimes it's even impossible to write them down explicitly.
 
   \begin{tabular}{ l | l }
     \hline
-    Linear     & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i}^T \mathbf{x_j}$ \\
+    Linear     & $\kappa(\bf{x_i}, \bf{x_j}) = \bf{x_i}^T \bf{x_j}$ \\
     \hline
-    Polynomial & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = (\mathbf{x_i}^T \mathbf{x_j} + c)^d$ \\
+    Polynomial & $\kappa(\bf{x_i}, \bf{x_j}) = (\bf{x_i}^T \bf{x_j} + c)^d$ \\
     \hline
-    RBF        & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{||\mathbf{x_i} - \mathbf{x_j}||^2}{2\sigma^2}\right)$ \\
+    RBF        & $\kappa(\bf{x_i}, \bf{x_j}) = \exp\left(-\frac{||\bf{x_i} - \bf{x_j}||^2}{2\sigma^2}\right)$ \\
     \hline
   \end{tabular}
 
@@ -194,7 +197,7 @@
   Search for the hyperplane separating the data such that the gap is biggest.
   It minimizes the following cost function:
 
-  $\mathcal{L}_{SVM} (\mathbf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
+  $\mathcal{L}_{SVM} (\bf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
 
   This is convex but not differentiable.
 
