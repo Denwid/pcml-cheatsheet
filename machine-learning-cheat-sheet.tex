@@ -15,18 +15,21 @@
   /Creator (TeX)
   /Producer (pdfTeX 1.40.0)
   /Author (Dennis Meier)
-  /Subject (Yocto Tips&Tricks)
-  /Keywords (yocto, openembedded, bitbake, cheatsheet)}
+  /Subject (Machine Learning cheatsheet)
+  /Keywords (machinelearning, ml, bayes, regression, classification)
+}
 
 % This sets page margins to .5 inch if using letter paper, and to 1cm
 % if using A4 paper. (This probably isn't strictly necessary.)
 % If using another size paper, use default 1cm margins.
-\ifthenelse{\lengthtest { \paperwidth = 11in}}
-    { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
-    {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
-        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
-        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
-    }
+\ifthenelse{\lengthtest{\paperwidth = 11in}}
+  % Then
+  { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+  % Else
+  { \ifthenelse{\lengthtest{\paperwidth = 297mm}}
+    {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+    {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+  }
 
 % Turn off header and footer
 \pagestyle{empty}
@@ -53,7 +56,6 @@
 
 % Don't print section numbers
 \setcounter{secnumdepth}{0}
-
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt plus 0.5ex}
@@ -90,7 +92,7 @@
   {\par\medskip\noindent\minipage{\linewidth}}
   {\endminipage\par\medskip}
 
-% Enable arg min/max
+% Enable arg min/max math operators
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 
@@ -153,7 +155,7 @@ Huber loss: $\mathcal{L}_\delta (a) = \begin{cases}
 
 Root mean square error (RMSE): $\sqrt{2 * \text{MSE}}$
 
-Epsilon insensitive (used for SVMs): 
+Epsilon insensitive (used for SVMs):
 $\mathcal{L}_{\epsilon}(y, \hat{y}) = \begin{cases}
  0                   & \text{if } |y - \hat y| \le \epsilon, \\
  |y - \hat y| - \epsilon, & \text{otherwise.}
@@ -183,7 +185,7 @@ $\beta = ( \tilde{X}^T \tilde{X} )^{-1} \tilde{X}^T y$
 Logistic Function $\sigma = \frac{exp(x)}{1+exp(x)}$
 
 Classification with linear regression: Use $y = 0$ as class $\mathcal{C_1}$
-and $y = 1$ as class $\mathcal{C_2}$ and then decide a newly estimated $y$ belongs 
+and $y = 1$ as class $\mathcal{C_2}$ and then decide a newly estimated $y$ belongs
 to $\mathcal{C_1}$ if $y < 0.5$.
 
 \subsection{Logistic Regression}
@@ -207,17 +209,17 @@ It states that among competing hypotheses, the one with the fewest assumptions s
 \includegraphics[width=\linewidth]{bias-variance.png}
 \end{colfig}
 
-\begin{tabular}{ l || c | c } 
+\begin{tabular}{ l || c | c }
    & bias & variance \\
-     \hline                      
+     \hline
   regularization & + & - \\
   reduce model complexity & + & - \\
   more data & - & \\
-  \hline  
+  \hline
 \end{tabular}
 
 \section{Maximum Likelihood}
-The Likelihood Function maps the model parameters to the probability distribution of $\mathbf{y}$: 
+The Likelihood Function maps the model parameters to the probability distribution of $\mathbf{y}$:
 $\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \mathbf{\beta} \mapsto p(\mathbf{y} \mid  \mathbf{\beta})$
 An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\mathbf{y} \mid \beta) = \prod_n p(y_n \mid \beta)$.
 
@@ -225,11 +227,11 @@ $\mathcal{L}_{lik}$ can be viewed as just another cost function. Maximum likelih
 
 Assuming different $p$ is basically what makes this so flexible. We can chose e.g.:
 
-\begin{tabular}{ l  l } 
-  \hline  
-   Gaussian $p$ & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MSE}$ \\                  
+\begin{tabular}{ l  l }
+  \hline
+   Gaussian $p$ & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MSE}$ \\
   Poisson $p$ & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MAE}$ \\
-  \hline  
+  \hline
 \end{tabular}
 
 
@@ -259,15 +261,15 @@ $\mathcal{L}_{SVM} (\mathbf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{
 This is convex but not differentiable.
 
 \section{Graphical Models}
-Bayes Net: Directed acyclic graph 
+Bayes Net: Directed acyclic graph
 
 Belief propagation: graph between the observations and the variables is a bi-partite graph.
 
 \hrule
 \tiny
 Rendered \today. Written by Dennis Meier.
-\copyright Dennis Meier. This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License. 
-To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or 
+\copyright Dennis Meier. This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 \includegraphics{by-sa}
 \end{multicols*}
