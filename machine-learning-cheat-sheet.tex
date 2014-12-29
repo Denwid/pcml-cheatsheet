@@ -19,95 +19,18 @@
   /Keywords (machinelearning, ml, bayes, regression, classification)
 }
 
-% This sets page margins to .5 inch if using letter paper, and to 1cm
-% if using A4 paper. (This probably isn't strictly necessary.)
-% If using another size paper, use default 1cm margins.
-\ifthenelse{\lengthtest{\paperwidth = 11in}}
-  % Then
-  { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
-  % Else
-  { \ifthenelse{\lengthtest{\paperwidth = 297mm}}
-    {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
-    {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
-  }
-
-% Turn off header and footer
-\pagestyle{empty}
-
-% Redefine section commands to use less space
-\makeatletter
-\renewcommand{\section}{\@startsection{section}{1}{0mm}%
-                                {-1ex plus -.5ex minus -.2ex}%
-                                {0.5ex plus .2ex}%x
-                                {\color{darkred}\normalfont\large\bfseries}}
-\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
-                                {-1explus -.5ex minus -.2ex}%
-                                {0.5ex plus .2ex}%
-                                {\color{darkdarkred}\normalfont\normalsize\bfseries}}
-\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
-                                {-1ex plus -.5ex minus -.2ex}%
-                                {1ex plus .2ex}%
-                                {\normalfont\small\bfseries}}
-\makeatother
-
-% Define BibTeX command
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
-
-% Don't print section numbers
-\setcounter{secnumdepth}{0}
-
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0pt plus 0.5ex}
-
-% Setting colors
-\definecolor{lightgray}{rgb}{0.7,0.7,0.7}
-\definecolor{lightergray}{rgb}{0.9,0.9,0.9}
-\definecolor{darkblue}{rgb}{0.4,0.4,1}
-\definecolor{darkred}{rgb}{0.9,0.2,0.2}
-\definecolor{darkdarkred}{rgb}{0.6,0.0,0.0}
-\definecolor{lightred}{rgb}{1,0.6,0.6}
-\definecolor{lightgreen}{rgb}{0.6,1,0.6}
-\definecolor{lightblue}{rgb}{0.6,0.8,1}
-\definecolor{darkgreen}{rgb}{0.4,1,0.4}
-
-% Set code listing style
-\lstset {
-    backgroundcolor=\color{lightgray},
-    basicstyle=\ttfamily\scriptsize,
-    breaklines=true,
-}
-
-\lstdefinestyle{bb}{
-    backgroundcolor=\color{lightergray},
-    frame=L,
-    xleftmargin=\parindent,
-}
-
-% Set hyperlink style
-\hypersetup{hidelinks}
-
-% Enable figures
-\newenvironment{colfig}
-  {\par\medskip\noindent\minipage{\linewidth}}
-  {\endminipage\par\medskip}
-
-% Enable arg min/max math operators
-\DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator*{\argmax}{arg\,max}
+% Cheatsheet style
+\input{style.tex}
 
 % -----------------------------------------------------------------------
 
 \begin{document}
-
-
 \title{Machine Learning Cheat Sheet}
 
 \raggedright
 \footnotesize
 \sffamily
 \begin{multicols*}{4}
-
 
 % multicol parameters
 % These lengths are set only within the two main columns
@@ -118,7 +41,7 @@
 \setlength{\columnsep}{2pt}
 
 \begin{center}
-\Large{\underline{Machine Learning Cheat Sheet}} \\
+  \Large{\underline{Machine Learning Cheat Sheet}}
 \end{center}
 
 \section{Regression}
@@ -139,7 +62,7 @@ Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol \Phi}^T \tilde{\boldsymb
 \subsection{Cost functions}
 \begin{colfig}
 \centering
-\includegraphics[width=\linewidth]{error-functions.png}
+\includegraphics[width=\linewidth]{images/error-functions.png}
 \end{colfig}
 
 Cost function / Loss: $\mathcal{L}(\boldsymbol\beta) = \mathcal{L}(\mathcal{D},\boldsymbol\beta)$
@@ -205,16 +128,16 @@ It states that among competing hypotheses, the one with the fewest assumptions s
 
 \section{Bias-Variance Decomposition}
 \begin{colfig}
-\centering
-\includegraphics[width=\linewidth]{bias-variance.png}
+  \centering
+  \includegraphics[width=\linewidth]{images/bias-variance.png}
 \end{colfig}
 
 \begin{tabular}{ l || c | c }
-   & bias & variance \\
-     \hline
-  regularization & + & - \\
-  reduce model complexity & + & - \\
-  more data & - & \\
+                          & bias & variance \\
+  \hline
+  regularization          & +    & - \\
+  reduce model complexity & +    & - \\
+  more data               & -    & \\
   \hline
 \end{tabular}
 
@@ -229,27 +152,27 @@ Assuming different $p$ is basically what makes this so flexible. We can chose e.
 
 \begin{tabular}{ l  l }
   \hline
-   Gaussian $p$ & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MSE}$ \\
-  Poisson $p$ & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MAE}$ \\
+  Gaussian $p$ & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MSE}$ \\
+  Poisson $p$  & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MAE}$ \\
   \hline
 \end{tabular}
 
 
 \section{Kernel}
-Basically, Kernels are a mean to measure distance, or "similarity" of two vectors. We define:
+Basically, Kernels are a mean to measure distance, or ``similarity'' of two vectors. We define:
 
 $(\mathbf{K})_{i,j} = \kappa(\mathbf{x_i}, \mathbf{x_j}) = \vec \phi(\mathbf{x_i})^T \vec \phi(\mathbf{x_j})$.
 
 The $\phi$ are not that important in the end, because we only use the Kernel as is. Sometimes it's even impossible to write them down explicitly.
 
 \begin{tabular}{ l | l }
-\hline
-Linear & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i}^T \mathbf{x_j}$ \\
-\hline
-Polynomial & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = (\mathbf{x_i}^T \mathbf{x_j} + c)^d$ \\
-\hline
-RBF & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{||\mathbf{x_i} - \mathbf{x_j}||^2}{2\sigma^2}\right)$ \\
-\hline
+  \hline
+  Linear     & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = \mathbf{x_i}^T \mathbf{x_j}$ \\
+  \hline
+  Polynomial & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = (\mathbf{x_i}^T \mathbf{x_j} + c)^d$ \\
+  \hline
+  RBF        & $\kappa(\mathbf{x_i}, \mathbf{x_j}) = \exp\left(-\frac{||\mathbf{x_i} - \mathbf{x_j}||^2}{2\sigma^2}\right)$ \\
+  \hline
 \end{tabular}
 
 \section{Support Vector Machines}
@@ -271,6 +194,6 @@ Rendered \today. Written by Dennis Meier.
 \copyright Dennis Meier. This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
-\includegraphics{by-sa}
+\includegraphics{images/by-sa.png}
 \end{multicols*}
 \end{document}
