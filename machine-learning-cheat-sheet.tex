@@ -164,6 +164,14 @@
   \end{tabular}
 
 % ----------
+\section{Bayesian methods}
+  Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
+
+  The \textbf{prior} $p(\mathbf{f}|\mathbf{X})$ encodes our prior belief about the ``true'' model $\mathbf{f}$. The \textbf{likelihood} $p(\mathbf{y}|\mathbf{f})$ measures the probability of our (possibly noisy) observations given the prior.
+
+  Least-squares tries to find model parameters $\mathbf{\beta}$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\mathbf{\beta}|\mathbf{y})$
+
+% ----------
 \section{Kernel}
   Basically, Kernels are a mean to measure distance, or ``similarity'' of two vectors. We define:
 
