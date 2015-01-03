@@ -185,6 +185,12 @@
 
   Least-squares tries to find model parameters $\bf{\beta}$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\bf{\beta}|\bf{y})$
 
+  % ----------
+  \subsection{Graphical Models}
+  \todo[inline]{TODO: Bayes Net: Directed acyclic graph}
+  \todo[inline]{TODO: Belief propagation}
+  Graph between the observations and the variables is a bi-partite graph.
+
 % ----------
 \section{Kernel}
   Basically, Kernels are a mean to measure distance, or ``similarity'' of two vectors. We define:
@@ -204,6 +210,10 @@
   \end{tabular}
 
 % ----------
+\section{Neural Networks}
+  \todo[inline]{TODO: Intuition and notation, backpropagation, regularization techniques}
+
+% ----------
 \section{Support Vector Machines}
   Search for the hyperplane separating the data such that the gap is biggest.
   It minimizes the following cost function:
@@ -211,12 +221,6 @@
   $\mathcal{L}_{SVM} (\bf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
 
   This is convex but not differentiable.
-
-% ----------
-\section{Graphical Models}
-  Bayes Net: Directed acyclic graph
-
-  Belief propagation: graph between the observations and the variables is a bi-partite graph.
 
 % ---------- Footer
 \hrule
