@@ -106,8 +106,6 @@
 
 % ----------
 
-\todo[inline]{TODO: statistical/computational tradeoff}
-
 \section{Grid Search}
   Complexity: $\mathcal{O}(M^D N D)$, where $M$ is the number of grids in one dimension.
 
@@ -149,26 +147,6 @@
   0-1 Loss: $ \frac{1}{N} \sum_{n=1}^{N} \delta(y_n, \hat{y_n})$
 
   logLoss: $- \frac{1}{N}  \sum_{n=1}^{N} y_n \log(\hat{p_n}) + (1-y_n) \log(1-\hat{p_n})$
-
-% ----------
-\section{Occam's Razor}
-  It states that among competing hypotheses, the one with the fewest assumptions should be selected. Other, more complicated solutions may ultimately prove correct, but—in the absence of certainty—the fewer assumptions that are made, the better.
-
-% ----------
-\section{Bias-Variance Decomposition}
-  \begin{colfig}
-    \centering
-    \includegraphics[width=\linewidth]{images/bias-variance.png}
-  \end{colfig}
-
-  \begin{tabular}{ l || c | c }
-                            & bias & variance \\
-    \hline
-    regularization          & +    & - \\
-    reduce model complexity & +    & - \\
-    more data               & -    & \\
-    \hline
-  \end{tabular}
 
 % ----------
 \section{Maximum Likelihood}
@@ -240,6 +218,34 @@ Rendered \today. Written by Dennis Meier.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 \includegraphics{images/by-sa.png}
+
+\section{Concepts}
+% ----------
+\subsection{Occam's Razor}
+  It states that among competing hypotheses, the one with the fewest assumptions should be selected. Other, more complicated solutions may ultimately prove correct, but—in the absence of certainty—the fewer assumptions that are made, the better.
+
+% ----------
+\subsection{Bias-Variance Decomposition}
+  \begin{colfig}
+    \centering
+    \includegraphics[width=\linewidth]{images/bias-variance.png}
+  \end{colfig}
+
+  \begin{tabular}{ l || c | c }
+                            & bias & variance \\
+    \hline
+    regularization          & +    & - \\
+    reduce model complexity & +    & - \\
+    more data               & -    & \\
+    \hline
+  \end{tabular}
+
+\todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
+
+\todo[inline]{TODO: statistical/computational tradeoff}
+
+\todo[inline]{Definitions of: Efficiency, Optimality, Consistency, Identifiability, Convexity}
+
 
 \end{multicols*}
 \end{document}
