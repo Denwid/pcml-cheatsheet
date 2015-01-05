@@ -86,6 +86,8 @@
   Cost function / Loss: $\mathcal{L}(\boldsymbol\beta) = \mathcal{L}(\mathcal{D},\boldsymbol\beta)$
 
   Mean square error (MSE): $\frac{1}{2N} \sum_{n=1}^{N}\left[y_n-f(\bf{x}_i) \right]^2$
+  
+  MSE Matrix Formulation: $\frac{1}{2N} (\bf{y - X \beta})^T (\bf{y - X \beta})$
 
   Mean absolute error (MAE): $\frac{1}{2N} \sum_{n=1}^{N}\left | y_n-f(\bf{x}_i) \right |$
 
@@ -123,7 +125,9 @@
 % ----------
 \section{Least squares}
   Complexity: $\mathcal{O}(ND^2 + D^3)$
-
+  The gradient of the MSE set to zero is called the normal equation:
+  $$ -2 \bf{y^T X} + 2 \bf{X^T X \beta} = 0$$
+  We can solve this for $y$ directly (by Matrix manipulation)
   $\beta = ( \tilde{X}^T \tilde{X} )^{-1} \tilde{X}^T y$
 
 % ----------
