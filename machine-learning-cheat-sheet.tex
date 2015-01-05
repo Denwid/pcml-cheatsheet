@@ -54,9 +54,11 @@
   
   We write all N training examples in a Matrix: $\bf{X} = \begin{bmatrix} \bf{x}_1 ; \quad \bf{x}_2 ; \quad ... ; \quad \bf{x}_N \end{bmatrix}$
   
-  In supervised learning, you are also given a  $\bf{y} = \begin{bmatrix} y_1 \quad y_2 \quad ... \quad y_{N} \end{bmatrix}^T$
+  In supervised learning, you are also given a set of observations corresponding to the training examples:  $\bf{y} = \begin{bmatrix} y_1 \quad y_2 \quad ... \quad y_{N} \end{bmatrix}^T$
+
+  We assume a \emph{true} model behind the data, the observations are noisy versions of this ground truth: $y = y_{true} + \epsilon$.
   
-  The goal is to predict a $\hat{y}$ given any $\bf{x}$.
+  The final goal is to predict a $\hat{y}$ given any $\bf{x}$.
   
   \subsection{Distributions}
   Gaussian distribution: $\mathcal{N}(X| \mu, \sigma^2)$ \\
@@ -221,6 +223,20 @@
     \centering
     \includegraphics[width=\linewidth]{images/bias-variance.png}
   \end{colfig}
+  
+ Bias-variance come directly out of the test error: 
+  \begin{align*}
+  \overline{teErr} 
+  &= E[(\text{observation} - \text{prediction})^2] = E[(y - \hat{y})^2] \\
+  &= E[(y - y_{true} + y_{true} - \hat{y})^2] \\
+  &=\underbrace{E[(y - y_{true})^2]}_{\text{var of measurement}} + E[(y_{true} - \hat{y})^2] \\
+  &=\sigma^2 + E[(y_{true} - E[\hat{y}] + E[\hat{y}] - \hat{y})^2] \\
+  &=\sigma^2 + \underbrace{E[(y_{true} - E[\hat{y}])^2]}_{\text{pred bias}^2} +\underbrace{E[(E[\hat{y}] - \hat{y})^2]}_{\text{pred variance}}
+\end{align*}
+
+ 
+  
+  
 
   \begin{tabular}{ l || c | c }
                             & bias & variance \\
