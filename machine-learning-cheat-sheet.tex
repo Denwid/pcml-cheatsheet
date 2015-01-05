@@ -49,6 +49,16 @@
 
 % ----------
 \section{General}
+  \subsection{Dataset and Definitions}
+  $\mathcal{D}$ is a set of training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\bf{x}_n = \begin{bmatrix} x_{n1} \quad x_{n2} \quad ... \quad x_{nD} \end{bmatrix} $
+  
+  We write all N training examples in a Matrix: $\bf{X} = \begin{bmatrix} \bf{x}_1 ; \quad \bf{x}_2 ; \quad ... ; \quad \bf{x}_N \end{bmatrix}$
+  
+  In supervised learning, you are also given a  $\bf{y} = \begin{bmatrix} y_1 \quad y_2 \quad ... \quad y_{N} \end{bmatrix}^T$
+  
+  The goal is to predict a $\hat{y}$ given any $\bf{x}$.
+  
+  \subsection{Distributions}
   Gaussian distribution: $\mathcal{N}(X| \mu, \sigma^2)$ \\
   $\implies p(X = x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp{(- \frac{1}{2} ( \frac{x - \mu}{\sigma} )^2)}$
 
@@ -57,10 +67,6 @@
 
 % ----------
 \section{Regression}
-  $\mathcal{D}$ is a set of Training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\bf{x}_n = \begin{bmatrix} \quad x_{n1} \quad x_{n2} \quad ... \quad x_{nD} \end{bmatrix} $
-
-  The goal is to predict a $\hat{y}$ given a $\bf{x}$.
-
   Simple linear regression: $y_n \approx \beta_0 + \beta_1 x_{n1}$
 
   Multiple linear regression: $y_n \approx f(\bf{x}_n) := \beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + ... + \beta_D x_{nD}$
