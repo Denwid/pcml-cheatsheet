@@ -13,8 +13,11 @@
 % Cheatsheet style
 \input{style.tex}
 
-% Shorthand for \bf
+% Shorthands
 \providecommand{\bf}[1]{\ensuremath{\bf{#1}}}
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
 
 \pdfinfo{
   /Title (Machine Learning Cheat Sheet)
@@ -155,14 +158,14 @@ The Likelihood Function maps the model parameters to the probability distributio
 $\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \bf{\beta} \mapsto p(\bf{y} \mid  \bf{\beta})$
 An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\bf{y} \mid \beta) = \prod_n p(y_n \mid \beta)$.
 
-$\mathcal{L}_{lik}$ can be viewed as just another cost function. Maximum likelihood then simply choses the parameters $\bf{\beta}$ such that observed data is most likely. $\beta = \argmax_{\text{all} \beta} L(\beta)$
+$\mathcal{L}_{lik}$ can be viewed as just another cost function. Maximum likelihood then simply chooses the parameters $\bf{\beta}$ such that observed data is most likely. $\beta = \argmax_{\text{all} \beta} L(\beta)$
 
 Assuming different $p$ is basically what makes this so flexible. We can chose e.g.:
 
 \begin{tabular}{ l  l }
   \hline
-  Gaussian $p$ & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MSE}$ \\
-  Poisson $p$  & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MAE}$ \\
+  Gaussian $p$ & $\mathcal{L}_{lik} \widehat{=} -\mathcal{L}_{MSE}$ \\
+  Poisson $p$  & $\mathcal{L}_{lik} \widehat{=} -\mathcal{L}_{MAE}$ \\
   \hline
 \end{tabular}
 
@@ -248,11 +251,15 @@ An estimator is said to be consistent, if it eventually recovers the true parame
 \subsection{Convexity}
 f is called convex f: $\forall x_1, x_2 \in X, \forall t \in [0, 1]: \qquad f(tx_1+(1-t)x_2)\leq t f(x_1)+(1-t)f(x_2).$
 
+\subsection{Efficiency}
+An estimator is called efficient if it achives the Cramer-Rao lower bound:
+$\Var{(\beta)} \geq 1/I(\beta)$, where I is the fisher information.
+
 \todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
 
 \todo[inline]{TODO: statistical/computational tradeoff}
 
-\todo[inline]{Definitions of: Efficiency, Optimality, Identifiability}
+\todo[inline]{Definitions of: Optimality, Identifiability}
 
 % ---------- Footer
 \hrule
