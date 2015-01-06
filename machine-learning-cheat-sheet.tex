@@ -64,6 +64,9 @@ We assume a \emph{true} model behind the data, the observations are noisy versio
 The final goal is to predict a $\hat{y}$ given any $\bf{x}$.
   
 \subsection{Distributions}
+Multivariate gaussian distribution: $\mathcal{N}(\bf{x} | \bf{\mu} , \bf{\Sigma})$ \\
+$\implies p(X = x) = (2 \pi)^{-d/2} |\bf{\Sigma|}^{-1/2} \exp{[- \frac{1}{2} (\bf{x} - \bf{\mu})^T \bf{\Sigma}^{-1} (\bf{x} - \bf{\mu})]}$
+
 Gaussian distribution: $\mathcal{N}(X| \mu, \sigma^2)$ \\
 $\implies p(X = x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp{(- \frac{1}{2} ( \frac{x - \mu}{\sigma} )^2)}$
 
