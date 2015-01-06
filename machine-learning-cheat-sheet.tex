@@ -234,10 +234,6 @@
   &=\sigma^2 + \underbrace{E[(y_{true} - E[\hat{y}])^2]}_{\text{pred bias}^2} +\underbrace{E[(E[\hat{y}] - \hat{y})^2]}_{\text{pred variance}}
 \end{align*}
 
- 
-  
-  
-
   \begin{tabular}{ l || c | c }
                             & bias & variance \\
     \hline
@@ -246,12 +242,18 @@
     more data               & -    & \\
     \hline
   \end{tabular}
+  
+\subsection{Consistency}
+An estimator is said to be consistent, if it eventually recovers the true parameters that generated the data as the sample size goes to infinity. Of course, this only makes sense if the data actually comes from the specified model, which is not usually the case. Nevertheless, it can be a useful theoretical property.
+
+\subsection{Convexity}
+f is called convex f: $\forall x_1, x_2 \in X, \forall t \in [0, 1]: \qquad f(tx_1+(1-t)x_2)\leq t f(x_1)+(1-t)f(x_2).$
 
 \todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
 
 \todo[inline]{TODO: statistical/computational tradeoff}
 
-\todo[inline]{Definitions of: Efficiency, Optimality, Consistency, Identifiability, Convexity}
+\todo[inline]{Definitions of: Efficiency, Optimality, Identifiability}
 
 
 % ---------- Footer
