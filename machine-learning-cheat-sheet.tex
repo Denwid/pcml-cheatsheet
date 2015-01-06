@@ -64,8 +64,8 @@ We assume a \emph{true} model behind the data, the observations are noisy versio
 The final goal is to predict a $\hat{y}$ given any $\bf{x}$.
   
 \subsection{Distributions}
-Multivariate gaussian distribution: $\mathcal{N}(\bf{x} | \bf{\mu} , \bf{\Sigma})$ \\
-$\implies p(X = x) = (2 \pi)^{-d/2} |\bf{\Sigma|}^{-1/2} \exp{[- \frac{1}{2} (\bf{x} - \bf{\mu})^T \bf{\Sigma}^{-1} (\bf{x} - \bf{\mu})]}$
+Multivariate gaussian distribution: $\mathcal{N}(\bf{X} | \bf{\mu} , \bf{\Sigma})$ \\
+$\implies p(\bf{X} = \bf{x}) = (2 \pi)^{-d/2} |\bf{\Sigma|}^{-1/2} \exp{[- \frac{1}{2} (\bf{x} - \bf{\mu})^T \bf{\Sigma}^{-1} (\bf{x} - \bf{\mu})]}$
 
 Gaussian distribution: $\mathcal{N}(X| \mu, \sigma^2)$ \\
 $\implies p(X = x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp{(- \frac{1}{2} ( \frac{x - \mu}{\sigma} )^2)}$
@@ -267,6 +267,12 @@ f is called convex f: $\forall x_1, x_2 \in X, \forall t \in [0, 1]: \qquad f(tx
 \subsection{Efficiency}
 An estimator is called efficient if it achives the Cramer-Rao lower bound:
 $\Var{(\beta)} \geq 1/I(\beta)$, where I is the fisher information.
+
+\subsection{Curse of dimensionality}
+The main reason behind the curse is that, with the dimensionality increase, every data point becomes arbitrarily far
+from every other data point and therefore the choice of nearest neighbor becomes random.
+In high dimension, data only covers a tiny fraction of the input space, making generalization extremely difficult. 
+Or in other words, the volume of the space increases so fast that the available data become sparse.
 
 \todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
 
