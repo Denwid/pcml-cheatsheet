@@ -128,8 +128,8 @@ $\frac{\partial \mathcal{L}}{\partial \boldsymbol\beta} = - \frac{1}{N} \tilde{X
 \section{Least squares}
 Complexity: $\mathcal{O}(ND^2 + D^3)$
 The gradient of the MSE set to zero is called the normal equation:
-$$ -2 \bf{y^T X} + 2 \bf{X^T X \beta} = 0$$
-We can solve this for $y$ directly (by Matrix manipulation)
+$$ - \bf{y^T X} + \bf{X^T X \beta} = 0$$
+We can solve this for $\beta$ directly (by Matrix manipulation)
 $\beta = ( \tilde{X}^T \tilde{X} )^{-1} \tilde{X}^T y$
 
 % ----------
@@ -142,7 +142,17 @@ to $\mathcal{C_1}$ if $y < 0.5$.
 
 \subsection{Logistic Regression}
 $\tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - y] = 0$
-\todo[inline]{TODO: Generalized Linear model}
+
+\subsection{Generalized linear model}
+The GLM consists of three elements:
+\begin{itemize}
+	\item A probability distribution from the exponential family.
+    \item A linear predictor $\hat y = \bf{X} \bf{\beta}$ .
+    \item A link function g such that $E(y) = μ = g^{-1}(η)$. 
+\end{itemize}
+
+In a generalized linear model (GLM), each outcome of the dependent variables $y$ is assumed to be generated from a particular distribution in the exponential family, a large range of probability distributions that includes the normal, binomial, Poisson and gamma distributions, among others.
+
 
 \subsection{Cost functions}
 
