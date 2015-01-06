@@ -44,205 +44,204 @@
 \setlength{\columnsep}{2pt}
 
 \begin{center}
-  \Large{\underline{Machine Learning Cheat Sheet}}
+\Large{\underline{Machine Learning Cheat Sheet}}
 \end{center}
 
 % ----------
 \section{General}
-  \subsection{Dataset and Definitions}
-  $\mathcal{D}$ is a set of training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\bf{x}_n = \begin{bmatrix} x_{n1} \quad x_{n2} \quad ... \quad x_{nD} \end{bmatrix} $
-  
-  We write all N training examples in a Matrix: $\bf{X} = \begin{bmatrix} \bf{x}_1 ; \quad \bf{x}_2 ; \quad ... ; \quad \bf{x}_N \end{bmatrix}$
-  
-  In supervised learning, you are also given a set of observations corresponding to the training examples:  $\bf{y} = \begin{bmatrix} y_1 \quad y_2 \quad ... \quad y_{N} \end{bmatrix}^T$
+\subsection{Dataset and Definitions}
+$\mathcal{D}$ is a set of training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\bf{x}_n = \begin{bmatrix} x_{n1} \quad x_{n2} \quad ... \quad x_{nD} \end{bmatrix} $
+ 
+We write all N training examples in a Matrix: $\bf{X} = \begin{bmatrix} \bf{x}_1 ; \quad \bf{x}_2 ; \quad ... ; \quad \bf{x}_N \end{bmatrix}$
+ 
+In supervised learning, you are also given a set of observations corresponding to the training examples:  $\bf{y} = \begin{bmatrix} y_1 \quad y_2 \quad ... \quad y_{N} \end{bmatrix}^T$
 
-  We assume a \emph{true} model behind the data, the observations are noisy versions of this ground truth: $y = y_{true} + \epsilon$.
+We assume a \emph{true} model behind the data, the observations are noisy versions of this ground truth: $y = y_{true} + \epsilon$.
   
-  The final goal is to predict a $\hat{y}$ given any $\bf{x}$.
+The final goal is to predict a $\hat{y}$ given any $\bf{x}$.
   
-  \subsection{Distributions}
-  Gaussian distribution: $\mathcal{N}(X| \mu, \sigma^2)$ \\
-  $\implies p(X = x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp{(- \frac{1}{2} ( \frac{x - \mu}{\sigma} )^2)}$
+\subsection{Distributions}
+Gaussian distribution: $\mathcal{N}(X| \mu, \sigma^2)$ \\
+$\implies p(X = x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp{(- \frac{1}{2} ( \frac{x - \mu}{\sigma} )^2)}$
 
-  Poisson distribution: $\mathcal{P}(X| \lambda)$ \\
-  $\implies p(X = k) = \frac{\lambda ^ k}{k!} \exp{(- \lambda)}$
+Poisson distribution: $\mathcal{P}(X| \lambda)$ \\
+$\implies p(X = k) = \frac{\lambda ^ k}{k!} \exp{(- \lambda)}$
 
 % ----------
 \section{Regression}
-  Simple linear regression: $y_n \approx \beta_0 + \beta_1 x_{n1}$
+Simple linear regression: $y_n \approx \beta_0 + \beta_1 x_{n1}$
 
-  Multiple linear regression: $y_n \approx f(\bf{x}_n) := \beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + ... + \beta_D x_{nD}$
+Multiple linear regression: $y_n \approx f(\bf{x}_n) := \beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + ... + \beta_D x_{nD}$
 
-  \subsection{Linear basis function model}
-  $y_n = \beta_0 + \sum_{i=1}^{M} \beta_i \phi_i(\bf{x_n}) =  \bf{\tilde\phi^T}(\bf{x}^T_n) \boldsymbol\beta$.
-  The optimal $\beta$ is given by $\beta = ( \tilde{\Phi}^T \tilde{\Phi})^{-1} \tilde{\Phi}^T y$ where $\tilde{\Phi}$ is a matrix with N rows and the n-th row is $[1, \phi_1(x_n)^T,  ...,  \phi_M(x_n)^T]$.
+\subsection{Linear basis function model}
+$y_n = \beta_0 + \sum_{i=1}^{M} \beta_i \phi_i(\bf{x_n}) =  \bf{\tilde\phi^T}(\bf{x}^T_n) \boldsymbol\beta$.
+The optimal $\beta$ is given by $\beta = ( \tilde{\Phi}^T \tilde{\Phi})^{-1} \tilde{\Phi}^T y$ where $\tilde{\Phi}$ is a matrix with N rows and the n-th row is $[1, \phi_1(x_n)^T,  ...,  \phi_M(x_n)^T]$.
 
-  Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol \Phi}^T \tilde{\boldsymbol\Phi} + \lambda \boldsymbol I)^{-1} \tilde{\boldsymbol\Phi}^T \boldsymbol y$
+Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol \Phi}^T \tilde{\boldsymbol\Phi} + \lambda \boldsymbol I)^{-1} \tilde{\boldsymbol\Phi}^T \boldsymbol y$
 
-  \subsection{Cost functions}
-  \begin{colfig}
-    \centering
-    \includegraphics[width=\linewidth]{images/error-functions.png}
-  \end{colfig}
+\subsection{Cost functions}
+\begin{colfig}
+\centering
+\includegraphics[width=\linewidth]{images/error-functions.png}
+\end{colfig}
 
-  Cost function / Loss: $\mathcal{L}(\boldsymbol\beta) = \mathcal{L}(\mathcal{D},\boldsymbol\beta)$
+Cost function / Loss: $\mathcal{L}(\boldsymbol\beta) = \mathcal{L}(\mathcal{D},\boldsymbol\beta)$
 
-  Mean square error (MSE): $\frac{1}{2N} \sum_{n=1}^{N}\left[y_n-f(\bf{x}_i) \right]^2$
+Mean square error (MSE): $\frac{1}{2N} \sum_{n=1}^{N}\left[y_n-f(\bf{x}_i) \right]^2$
   
-  MSE Matrix Formulation: $\frac{1}{2N} (\bf{y - X \beta})^T (\bf{y - X \beta})$
+MSE Matrix Formulation: $\frac{1}{2N} (\bf{y - X \beta})^T (\bf{y - X \beta})$
 
-  Mean absolute error (MAE): $\frac{1}{2N} \sum_{n=1}^{N}\left | y_n-f(\bf{x}_i) \right |$
+Mean absolute error (MAE): $\frac{1}{2N} \sum_{n=1}^{N}\left | y_n-f(\bf{x}_i) \right |$
 
-  Huber loss: $\mathcal{L}_\delta (a) = \begin{cases}
-   \frac{1}{2}{a^2}                   & \text{for } |a| \le \delta, \\
-   \delta (|a| - \frac{1}{2}\delta ), & \text{otherwise.}
-  \end{cases}$
+Huber loss: $\mathcal{L}_\delta (a) = \begin{cases}
+\frac{1}{2}{a^2}                   & \text{for } |a| \le \delta, \\
+\delta (|a| - \frac{1}{2}\delta ), & \text{otherwise.}
+\end{cases}$
 
-  Root mean square error (RMSE): $\sqrt{2 * \text{MSE}}$
+Root mean square error (RMSE): $\sqrt{2 * \text{MSE}}$
 
-  Epsilon insensitive (used for SVMs):
-  $\mathcal{L}_{\epsilon}(y, \hat{y}) = \begin{cases}
-   0                   & \text{if } |y - \hat y| \le \epsilon, \\
-   |y - \hat y| - \epsilon, & \text{otherwise.}
-  \end{cases}$
-
+Epsilon insensitive (used for SVMs):
+$\mathcal{L}_{\epsilon}(y, \hat{y}) = \begin{cases}
+0                   & \text{if } |y - \hat y| \le \epsilon, \\
+|y - \hat y| - \epsilon, & \text{otherwise.}
+\end{cases}$
 % ----------
 
 \section{Grid Search}
-  Complexity: $\mathcal{O}(M^D N D)$, where $M$ is the number of grids in one dimension.
+Complexity: $\mathcal{O}(M^D N D)$, where $M$ is the number of grids in one dimension.
 
 % ----------
 \section{Gradient Descent}
-  General rule: $\boldsymbol\beta^{(k+1)} = \boldsymbol\beta^{(k)} - \alpha \frac{\partial \mathcal{L}(\boldsymbol\beta^{(k)})}{\partial \boldsymbol\beta}$
+General rule: $\boldsymbol\beta^{(k+1)} = \boldsymbol\beta^{(k)} - \alpha \frac{\partial \mathcal{L}(\boldsymbol\beta^{(k)})}{\partial \boldsymbol\beta}$
 
-  Complexity: $\mathcal{O}(I N D)$ where $I$ is the number of iterations we take.
+Complexity: $\mathcal{O}(I N D)$ where $I$ is the number of iterations we take.
 
-  Big questions are how to get a good $\alpha$.
+Big questions are how to get a good $\alpha$.
 
-  The gradient for MSE comes out as:
-  $\frac{\partial \mathcal{L}}{\partial \boldsymbol\beta} = - \frac{1}{N} \tilde{X}^T ( \boldsymbol y - \tilde{X} \boldsymbol\beta )$
+The gradient for MSE comes out as:
+$\frac{\partial \mathcal{L}}{\partial \boldsymbol\beta} = - \frac{1}{N} \tilde{X}^T ( \boldsymbol y - \tilde{X} \boldsymbol\beta )$
 
 % ----------
 \section{Least squares}
-  Complexity: $\mathcal{O}(ND^2 + D^3)$
-  The gradient of the MSE set to zero is called the normal equation:
-  $$ -2 \bf{y^T X} + 2 \bf{X^T X \beta} = 0$$
-  We can solve this for $y$ directly (by Matrix manipulation)
-  $\beta = ( \tilde{X}^T \tilde{X} )^{-1} \tilde{X}^T y$
+Complexity: $\mathcal{O}(ND^2 + D^3)$
+The gradient of the MSE set to zero is called the normal equation:
+$$ -2 \bf{y^T X} + 2 \bf{X^T X \beta} = 0$$
+We can solve this for $y$ directly (by Matrix manipulation)
+$\beta = ( \tilde{X}^T \tilde{X} )^{-1} \tilde{X}^T y$
 
 % ----------
 \section{Classification}
-  Logistic Function $\sigma = \frac{exp(x)}{1+exp(x)}$
+Logistic Function $\sigma = \frac{exp(x)}{1+exp(x)}$
 
-  Classification with linear regression: Use $y = 0$ as class $\mathcal{C_1}$
-  and $y = 1$ as class $\mathcal{C_2}$ and then decide a newly estimated $y$ belongs
-  to $\mathcal{C_1}$ if $y < 0.5$.
+Classification with linear regression: Use $y = 0$ as class $\mathcal{C_1}$
+and $y = 1$ as class $\mathcal{C_2}$ and then decide a newly estimated $y$ belongs
+to $\mathcal{C_1}$ if $y < 0.5$.
 
-  \subsection{Logistic Regression}
-  $\tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - y] = 0$
-  \todo[inline]{TODO: Generalized Linear model}
+\subsection{Logistic Regression}
+$\tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - y] = 0$
+\todo[inline]{TODO: Generalized Linear model}
 
-  \subsection{Cost functions}
+\subsection{Cost functions}
 
-  Root Mean square error (RMSE): $\sqrt{\frac{1}{N} \sum_{n=1}^{N}\left[y_n- \hat{p_n} \right]^2}$
+Root Mean square error (RMSE): $\sqrt{\frac{1}{N} \sum_{n=1}^{N}\left[y_n- \hat{p_n} \right]^2}$
 
-  0-1 Loss: $ \frac{1}{N} \sum_{n=1}^{N} \delta(y_n, \hat{y_n})$
+0-1 Loss: $ \frac{1}{N} \sum_{n=1}^{N} \delta(y_n, \hat{y_n})$
 
-  logLoss: $- \frac{1}{N}  \sum_{n=1}^{N} y_n \log(\hat{p_n}) + (1-y_n) \log(1-\hat{p_n})$
+logLoss: $- \frac{1}{N}  \sum_{n=1}^{N} y_n \log(\hat{p_n}) + (1-y_n) \log(1-\hat{p_n})$
 
 % ----------
 \section{Maximum Likelihood}
-  The Likelihood Function maps the model parameters to the probability distribution of $\bf{y}$:
-  $\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \bf{\beta} \mapsto p(\bf{y} \mid  \bf{\beta})$
-  An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\bf{y} \mid \beta) = \prod_n p(y_n \mid \beta)$.
+The Likelihood Function maps the model parameters to the probability distribution of $\bf{y}$:
+$\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \bf{\beta} \mapsto p(\bf{y} \mid  \bf{\beta})$
+An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\bf{y} \mid \beta) = \prod_n p(y_n \mid \beta)$.
 
-  $\mathcal{L}_{lik}$ can be viewed as just another cost function. Maximum likelihood then simply choses the parameters $\bf{\beta}$ such that observed data is most likely. $\beta = \argmax_{\text{all} \beta} L(\beta)$
+$\mathcal{L}_{lik}$ can be viewed as just another cost function. Maximum likelihood then simply choses the parameters $\bf{\beta}$ such that observed data is most likely. $\beta = \argmax_{\text{all} \beta} L(\beta)$
 
-  Assuming different $p$ is basically what makes this so flexible. We can chose e.g.:
+Assuming different $p$ is basically what makes this so flexible. We can chose e.g.:
 
-  \begin{tabular}{ l  l }
-    \hline
-    Gaussian $p$ & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MSE}$ \\
-    Poisson $p$  & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MAE}$ \\
-    \hline
-  \end{tabular}
+\begin{tabular}{ l  l }
+  \hline
+  Gaussian $p$ & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MSE}$ \\
+  Poisson $p$  & $\mathcal{L}_{lik} \widehat{=} \mathcal{L}_{MAE}$ \\
+  \hline
+\end{tabular}
 
 % ----------
 \section{Bayesian methods}
-  Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
+Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
 
-  The \textbf{prior} $p(\bf{f}|\bf{X})$ encodes our prior belief about the ``true'' model $\bf{f}$. The \textbf{likelihood} $p(\bf{y}|\bf{f})$ measures the probability of our (possibly noisy) observations given the prior.
+The \textbf{prior} $p(\bf{f}|\bf{X})$ encodes our prior belief about the ``true'' model $\bf{f}$. The \textbf{likelihood} $p(\bf{y}|\bf{f})$ measures the probability of our (possibly noisy) observations given the prior.
 
-  Least-squares tries to find model parameters $\bf{\beta}$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\bf{\beta}|\bf{y})$
+Least-squares tries to find model parameters $\bf{\beta}$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\bf{\beta}|\bf{y})$
 
-  % ----------
-  \subsection{Graphical Models}
-  \todo[inline]{TODO: Bayes Net: Directed acyclic graph}
-  \todo[inline]{TODO: Belief propagation}
-  Graph between the observations and the variables is a bi-partite graph.
+% ----------
+\subsection{Graphical Models}
+\todo[inline]{TODO: Bayes Net: Directed acyclic graph}
+\todo[inline]{TODO: Belief propagation}
+Graph between the observations and the variables is a bi-partite graph.
 
 % ----------
 \section{Kernel}
-  Basically, Kernels are a mean to measure distance, or ``similarity'' of two vectors. We define:
+Basically, Kernels are a mean to measure distance, or ``similarity'' of two vectors. We define:
 
-  $(\bf{K})_{i,j} = \kappa(\bf{x_i}, \bf{x_j}) = \vec \phi(\bf{x_i})^T \vec \phi(\bf{x_j})$.
+$(\bf{K})_{i,j} = \kappa(\bf{x_i}, \bf{x_j}) = \vec \phi(\bf{x_i})^T \vec \phi(\bf{x_j})$.
 
-  The $\phi$ are not that important in the end, because we only use the Kernel as is. Sometimes it's even impossible to write them down explicitly.
+The $\phi$ are not that important in the end, because we only use the Kernel as is. Sometimes it's even impossible to write them down explicitly.
 
-  \begin{tabular}{ l | l }
-    \hline
-    Linear     & $\kappa(\bf{x_i}, \bf{x_j}) = \bf{x_i}^T \bf{x_j}$ \\
-    \hline
-    Polynomial & $\kappa(\bf{x_i}, \bf{x_j}) = (\bf{x_i}^T \bf{x_j} + c)^d$ \\
-    \hline
-    RBF        & $\kappa(\bf{x_i}, \bf{x_j}) = \exp\left(-\frac{||\bf{x_i} - \bf{x_j}||^2}{2\sigma^2}\right)$ \\
-    \hline
-  \end{tabular}
+\begin{tabular}{ l | l }
+  \hline
+  Linear     & $\kappa(\bf{x_i}, \bf{x_j}) = \bf{x_i}^T \bf{x_j}$ \\
+  \hline
+  Polynomial & $\kappa(\bf{x_i}, \bf{x_j}) = (\bf{x_i}^T \bf{x_j} + c)^d$ \\
+  \hline
+  RBF        & $\kappa(\bf{x_i}, \bf{x_j}) = \exp\left(-\frac{||\bf{x_i} - \bf{x_j}||^2}{2\sigma^2}\right)$ \\
+  \hline
+\end{tabular}
 
 % ----------
 \section{Neural Networks}
-  \todo[inline]{TODO: Intuition and notation, backpropagation, regularization techniques}
+\todo[inline]{TODO: Intuition and notation, backpropagation, regularization techniques}
 
 % ----------
 \section{Support Vector Machines}
-  Search for the hyperplane separating the data such that the gap is biggest.
-  It minimizes the following cost function:
+Search for the hyperplane separating the data such that the gap is biggest.
+It minimizes the following cost function:
 
-  $\mathcal{L}_{SVM} (\bf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
+$\mathcal{L}_{SVM} (\bf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
 
-  This is convex but not differentiable.
+This is convex but not differentiable.
 
 \section{Concepts}
 % ----------
 \subsection{Occam's Razor}
-  It states that among competing hypotheses, the one with the fewest assumptions should be selected. Other, more complicated solutions may ultimately prove correct, but—in the absence of certainty—the fewer assumptions that are made, the better.
+It states that among competing hypotheses, the one with the fewest assumptions should be selected. Other, more complicated solutions may ultimately prove correct, but—in the absence of certainty—the fewer assumptions that are made, the better.
 
 % ----------
 \subsection{Bias-Variance Decomposition}
-  \begin{colfig}
-    \centering
-    \includegraphics[width=\linewidth]{images/bias-variance.png}
-  \end{colfig}
-  
- Bias-variance come directly out of the test error: 
-  \begin{align*}
-  \overline{teErr} 
-  &= E[(\text{observation} - \text{prediction})^2] = E[(y - \hat{y})^2] \\
-  &= E[(y - y_{true} + y_{true} - \hat{y})^2] \\
-  &=\underbrace{E[(y - y_{true})^2]}_{\text{var of measurement}} + E[(y_{true} - \hat{y})^2] \\
-  &=\sigma^2 + E[(y_{true} - E[\hat{y}] + E[\hat{y}] - \hat{y})^2] \\
-  &=\sigma^2 + \underbrace{E[(y_{true} - E[\hat{y}])^2]}_{\text{pred bias}^2} +\underbrace{E[(E[\hat{y}] - \hat{y})^2]}_{\text{pred variance}}
+\begin{colfig}
+  \centering
+  \includegraphics[width=\linewidth]{images/bias-variance.png}
+\end{colfig}
+
+Bias-variance come directly out of the test error: 
+ \begin{align*}
+ \overline{teErr} 
+ &= E[(\text{observation} - \text{prediction})^2] = E[(y - \hat{y})^2] \\
+ &= E[(y - y_{true} + y_{true} - \hat{y})^2] \\
+ &=\underbrace{E[(y - y_{true})^2]}_{\text{var of measurement}} + E[(y_{true} - \hat{y})^2] \\
+ &=\sigma^2 + E[(y_{true} - E[\hat{y}] + E[\hat{y}] - \hat{y})^2] \\
+ &=\sigma^2 + \underbrace{E[(y_{true} - E[\hat{y}])^2]}_{\text{pred bias}^2} +\underbrace{E[(E[\hat{y}] - \hat{y})^2]}_{\text{pred variance}}
 \end{align*}
 
-  \begin{tabular}{ l || c | c }
-                            & bias & variance \\
-    \hline
-    regularization          & +    & - \\
-    reduce model complexity & +    & - \\
-    more data               & -    & \\
-    \hline
-  \end{tabular}
-  
+\begin{tabular}{ l || c | c }
+                          & bias & variance \\
+  \hline
+  regularization          & +    & - \\
+  reduce model complexity & +    & - \\
+  more data               & -    & \\
+  \hline
+\end{tabular}
+
 \subsection{Consistency}
 An estimator is said to be consistent, if it eventually recovers the true parameters that generated the data as the sample size goes to infinity. Of course, this only makes sense if the data actually comes from the specified model, which is not usually the case. Nevertheless, it can be a useful theoretical property.
 
@@ -255,11 +254,10 @@ f is called convex f: $\forall x_1, x_2 \in X, \forall t \in [0, 1]: \qquad f(tx
 
 \todo[inline]{Definitions of: Efficiency, Optimality, Identifiability}
 
-
 % ---------- Footer
 \hrule
 \tiny
-Rendered \today. Written by Dennis Meier.
+Rendered \today. Written by Dennis Meier and Merlin Nimier-David.
 \copyright Dennis Meier. This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
