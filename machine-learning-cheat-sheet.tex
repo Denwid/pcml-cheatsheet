@@ -220,8 +220,12 @@ We can then obtain the distribution over latent factors ($z_i$) by marginalizing
 $p(z_1, z_2, z_3 | y_1, y_2) = \frac{\text{joint}}{p(y_1, y_2)}$\\
 $\implies p(z_1 | y_1, y_2) = \sum_{z_2, z_3} \frac{\text{joint}}{p(y_1, y_2)}$
 
-\todo[inline]{TODO: Belief propagation}
-Graph between the observations and the variables is a bi-partite graph.
+\subsection{Belief propagation}
+Belief propagation is a message-passing based algorithm used to compute desired marginals (e.g. $p(z_1 | y_1, y_2)$) efficiently. It leverages the factorized expression of the joint. Messages passed:
+
+$m_{z_i \rightarrow y_j} = p(z_i) \Pi(\text{messages received except from } y_j)$
+
+$m_{y_j \rightarrow z_i} = \sum_{z_k \neq z_i} p(y_j | z_k) \Pi(\text{messages received except from } z_i)$
 
 % ----------
 \section{Kernel methods}
