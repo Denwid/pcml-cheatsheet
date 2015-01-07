@@ -285,6 +285,19 @@ from every other data point and therefore the choice of nearest neighbor becomes
 In high dimension, data only covers a tiny fraction of the input space, making generalization extremely difficult.
 Or in other words, the volume of the space increases so fast that the available data become sparse.
 
+\subsection{Primal vs. Dual}
+Instead of working in the column space of our data, we can work in the row space:
+$$\bf{\hat{y} = X \beta = X X^T \alpha = K \alpha}$$
+where $\bf{\beta} \in \mathbb{R}^D$ and $\bf{\alpha} \in \mathbb{R}^N$
+and (like magic) $\bf{K}$ shows up, the Kernel Matrix.
+
+Representer Theorem: For any $\bf{\beta}$ minimizing
+$$\min_\beta \sum_{n=1}^N \mathcal{L}(y_n, \bf{x}_n^T \bf{\beta}) + \sum_{d=1}^D \lambda \beta_d^2$$
+there exists an $\bf{\alpha}$ such that $\bf{\beta = X^T \alpha}$.
+
+When we have an explicit vector formulation of $\beta$, we can use the matrix inversion lemma to get it. E.g. for ridge regression:
+$$\beta = (X^T X  + \lambda I_D)^{-1} X^T y = X^T \underbrace{(X X^T + \lambda I_N)^{-1} y}_{\alpha}$$
+
 \todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
 
 \todo[inline]{TODO: statistical/computational tradeoff}
