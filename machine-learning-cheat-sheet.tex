@@ -61,7 +61,7 @@ In supervised learning, you are also given a set of observations corresponding t
 
 We assume a \emph{true} model behind the data, the observations are noisy versions of this ground truth: $y = y_{true} + \epsilon$.
 
-The final goal is to predict a $\hat{y}$ given any $\bf{x}$.
+The final goal is to predict a $\hat{y} = f(\bf{\hat{x}})$ given any $\bf{\hat{x}}$.
 
 \subsection{Distributions}
 Multivariate gaussian distribution: $\mathcal{N}(\bf{X} | \bf{\mu} , \bf{\Sigma})$ \\
@@ -265,6 +265,22 @@ $\mathcal{L}_{SVM} (\bf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} +
 This is convex but not differentiable. In the dual, the same problem can be formulated as:
 
 $\max_{\alpha \in [0; C]^N} \alpha^T 1 - 1/2 \alpha^T Y K Y \alpha , \alpha^T y = 0$
+
+\section{Gaussian Process}
+The predicting function $f$ is interpreted as a random variable with jointly gaussian pdf (the prior) $\mathcal{N}(f | \bf{0}, \bf{K})$.
+Defining the Kernel matrix $\bf{K} = \kappa(\bf{X}, \bf{X})$ defines the prior. The key idea is, that if $\bf{x}_i$ and $\bf{x_j}$ are 
+deemed by the kernel to be similar, then we expect the output of $f$ at those points to be similar, too.
+
+We can sample functions from this random variable $f$ and we can use prior + measurements to generate predictions.
+
+If we have measurements $\bf{y}$ available, we get a joint distribution with the $\bf{\hat{y}}$ to be predicted:
+
+$\begin{bmatrix} \bf{y} \\ \bf{\hat{y}} \end{bmatrix} = \mathcal{N}(\bf{0}, 
+\begin{bmatrix} 	\kappa(\bf{X}, \bf{X}) + \sigma_n^2 I 		& \kappa(\bf{X}, \bf{\hat{X}}) \\ 
+						\kappa(\bf{\hat{X}}, \bf{X}),							& \kappa(\bf{\hat{X}}, \bf{\hat{X}})
+\end{bmatrix}$
+
+This can be conditioned on $\bf{y}$ to find the pdf of $\bf{\hat{y}}$.
 
 \section{Concepts}
 % ----------
