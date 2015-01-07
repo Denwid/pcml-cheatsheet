@@ -262,7 +262,9 @@ It minimizes the following cost function:
 
 $\mathcal{L}_{SVM} (\bf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
 
-This is convex but not differentiable.
+This is convex but not differentiable. In the dual, the same problem can be formulated as:
+
+$\max_{\alpha \in [0; C]^N} \alpha^T 1 - 1/2 \alpha^T Y K Y \alpha , \alpha^T y = 0$
 
 \section{Concepts}
 % ----------
@@ -321,8 +323,14 @@ Representer Theorem: For any $\bf{\beta}$ minimizing
 $$\min_\beta \sum_{n=1}^N \mathcal{L}(y_n, \bf{x}_n^T \bf{\beta}) + \sum_{d=1}^D \lambda \beta_d^2$$
 there exists an $\bf{\alpha}$ such that $\bf{\beta = X^T \alpha}$.
 
-When we have an explicit vector formulation of $\beta$, we can use the matrix inversion lemma to get it. E.g. for ridge regression:
+When we have an explicit vector formulation of $\beta$, we can use the matrix inversion lemma to get to the dual. E.g. for ridge regression:
 $$\beta = (X^T X  + \lambda I_D)^{-1} X^T y = X^T \underbrace{(X X^T + \lambda I_N)^{-1} y}_{\alpha}$$
+
+In optimization, we get to the dual like this:
+\begin{colfig}
+\centering
+\includegraphics[width=\linewidth]{images/prim-dual.png}
+\end{colfig}
 
 \todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
 
