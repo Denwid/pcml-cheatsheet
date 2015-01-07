@@ -54,15 +54,15 @@
 \section{General}
 \subsection{Dataset and Definitions}
 $\mathcal{D}$ is a set of training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\bf{x}_n = \begin{bmatrix} x_{n1} \quad x_{n2} \quad ... \quad x_{nD} \end{bmatrix} $
- 
-We write all N training examples in a Matrix: $\bf{X} = \begin{bmatrix} \bf{x}_1 ; \quad \bf{x}_2 ; \quad ... ; \quad \bf{x}_N \end{bmatrix}$
- 
+
+We write all N training examples in a matrix: $\bf{X} = \begin{bmatrix} \bf{x}_1 ; \quad \bf{x}_2 ; \quad ... ; \quad \bf{x}_N \end{bmatrix}$
+
 In supervised learning, you are also given a set of observations corresponding to the training examples:  $\bf{y} = \begin{bmatrix} y_1 \quad y_2 \quad ... \quad y_{N} \end{bmatrix}^T$
 
 We assume a \emph{true} model behind the data, the observations are noisy versions of this ground truth: $y = y_{true} + \epsilon$.
-  
+
 The final goal is to predict a $\hat{y}$ given any $\bf{x}$.
-  
+
 \subsection{Distributions}
 Multivariate gaussian distribution: $\mathcal{N}(\bf{X} | \bf{\mu} , \bf{\Sigma})$ \\
 $\implies p(\bf{X} = \bf{x}) = (2 \pi)^{-d/2} |\bf{\Sigma|}^{-1/2} \exp{[- \frac{1}{2} (\bf{x} - \bf{\mu})^T \bf{\Sigma}^{-1} (\bf{x} - \bf{\mu})]}$
@@ -72,6 +72,33 @@ $\implies p(X = x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp{(- \frac{1}{2} ( \frac
 
 Poisson distribution: $\mathcal{P}(X| \lambda)$ \\
 $\implies p(X = k) = \frac{\lambda ^ k}{k!} \exp{(- \lambda)}$
+
+% ----------
+\section{Optimization methods}
+
+\subsection{Grid Search}
+Simply try values for all parameters at regular intervals.
+Complexity: $\mathcal{O}(M^D N D)$, where $M$ is the number of values tried in each dimension.
+
+\subsection{Gradient Descent}
+Update rule: $\boldsymbol\beta^{(k+1)} = \boldsymbol\beta^{(k)} - \alpha \frac{\partial \mathcal{L}(\boldsymbol\beta^{(k)})}{\partial \boldsymbol\beta}$
+
+Complexity: $\mathcal{O}(I N D)$ where $I$ is the number of iterations we take.
+
+$\alpha$ is a parameter that needs to be chosen carefully.
+
+The gradient for MSE comes out as:
+$\frac{\partial \mathcal{L}}{\partial \boldsymbol\beta} = - \frac{1}{N} \tilde{X}^T ( \boldsymbol y - \tilde{X} \boldsymbol\beta )$
+
+\subsection{Newton's method}
+It uses second order derivatives information to converge faster (we approximate the objective function by a quadratic function rather than a line).
+
+General rule: $\boldsymbol\beta^{(k+1)} = \boldsymbol\beta^{(k)} - \alpha \bf{H_k^{-1}} \frac{\partial \mathcal{L}(\boldsymbol\beta^{(k)})}{\partial \boldsymbol\beta}$\\
+where $\bf{H_k}$ is the $D \times D$ Hessian at step $k$: $\bf{H_k} = \frac{\partial^2 \mathcal{L}(\boldsymbol\beta^{(k)})}{\partial \boldsymbol\beta^2}$
+
+Newton's method is equivalent to solving many least-squares problems.
+
+Complexity: $\mathcal{O}(I N D^2 + I D^3)$, with the $D^3$ cost coming from the inversion of $\bf{H_k}$.
 
 % ----------
 \section{Regression}
@@ -94,8 +121,8 @@ Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol \Phi}^T \tilde{\boldsymb
 Cost function / Loss: $\mathcal{L}(\boldsymbol\beta) = \mathcal{L}(\mathcal{D},\boldsymbol\beta)$
 
 Mean square error (MSE): $\frac{1}{2N} \sum_{n=1}^{N}\left[y_n-f(\bf{x}_i) \right]^2$
-  
-MSE Matrix Formulation: $\frac{1}{2N} (\bf{y - X \beta})^T (\bf{y - X \beta})$
+
+MSE matrix formulation: $\frac{1}{2N} (\bf{y - X \beta})^T (\bf{y - X \beta})$
 
 Mean absolute error (MAE): $\frac{1}{2N} \sum_{n=1}^{N}\left | y_n-f(\bf{x}_i) \right |$
 
@@ -106,33 +133,18 @@ Huber loss: $\mathcal{L}_\delta (a) = \begin{cases}
 
 Root mean square error (RMSE): $\sqrt{2 * \text{MSE}}$
 
-Epsilon insensitive (used for SVMs):
+Epsilon insensitive (``hinge loss'', used for SVM):
 $\mathcal{L}_{\epsilon}(y, \hat{y}) = \begin{cases}
 0                   & \text{if } |y - \hat y| \le \epsilon, \\
 |y - \hat y| - \epsilon, & \text{otherwise.}
 \end{cases}$
-% ----------
-
-\section{Grid Search}
-Complexity: $\mathcal{O}(M^D N D)$, where $M$ is the number of grids in one dimension.
-
-% ----------
-\section{Gradient Descent}
-General rule: $\boldsymbol\beta^{(k+1)} = \boldsymbol\beta^{(k)} - \alpha \frac{\partial \mathcal{L}(\boldsymbol\beta^{(k)})}{\partial \boldsymbol\beta}$
-
-Complexity: $\mathcal{O}(I N D)$ where $I$ is the number of iterations we take.
-
-Big questions are how to get a good $\alpha$.
-
-The gradient for MSE comes out as:
-$\frac{\partial \mathcal{L}}{\partial \boldsymbol\beta} = - \frac{1}{N} \tilde{X}^T ( \boldsymbol y - \tilde{X} \boldsymbol\beta )$
 
 % ----------
 \section{Least squares}
 Complexity: $\mathcal{O}(ND^2 + D^3)$
 The gradient of the MSE set to zero is called the normal equation:
 $$ - \bf{y^T X} + \bf{X^T X \beta} = 0$$
-We can solve this for $\beta$ directly (by Matrix manipulation)
+We can solve this for $\beta$ directly (by matrix manipulation)
 $\beta = ( \tilde{X}^T \tilde{X} )^{-1} \tilde{X}^T y$
 
 % ----------
@@ -151,14 +163,13 @@ The GLM consists of three elements:
 \begin{itemize}
 	\item A probability distribution from the exponential family.
     \item A linear predictor $\hat y = \bf{X} \bf{\beta}$ .
-    \item A link function g such that $E(y) = μ = g^{-1}(η)$. 
+    \item A link function g such that $E(y) = μ = g^{-1}(η)$.
 \end{itemize}
 
 In a generalized linear model (GLM), each outcome of the dependent variables $y$ is assumed to be generated from a particular distribution in the exponential family, a large range of probability distributions that includes the normal, binomial, Poisson and gamma distributions, among others.
 
 
 \subsection{Cost functions}
-
 Root Mean square error (RMSE): $\sqrt{\frac{1}{N} \sum_{n=1}^{N}\left[y_n- \hat{p_n} \right]^2}$
 
 0-1 Loss: $ \frac{1}{N} \sum_{n=1}^{N} \delta(y_n, \hat{y_n})$
@@ -197,7 +208,7 @@ Least-squares tries to find model parameters $\bf{\beta}$ which maximize the lik
 Graph between the observations and the variables is a bi-partite graph.
 
 % ----------
-\section{Kernel}
+\section{Kernel methods}
 Basically, Kernels are a mean to measure distance, or ``similarity'' of two vectors. We define:
 
 $(\bf{K})_{i,j} = \kappa(\bf{x_i}, \bf{x_j}) = \vec \phi(\bf{x_i})^T \vec \phi(\bf{x_j})$.
@@ -239,9 +250,9 @@ It states that among competing hypotheses, the one with the fewest assumptions s
   \includegraphics[width=\linewidth]{images/bias-variance.png}
 \end{colfig}
 
-Bias-variance come directly out of the test error: 
+Bias-variance come directly out of the test error:
  \begin{align*}
- \overline{teErr} 
+ \overline{teErr}
  &= E[(\text{observation} - \text{prediction})^2] = E[(y - \hat{y})^2] \\
  &= E[(y - y_{true} + y_{true} - \hat{y})^2] \\
  &=\underbrace{E[(y - y_{true})^2]}_{\text{var of measurement}} + E[(y_{true} - \hat{y})^2] \\
@@ -271,7 +282,7 @@ $\Var{(\beta)} \geq 1/I(\beta)$, where I is the fisher information.
 \subsection{Curse of dimensionality}
 The main reason behind the curse is that, with the dimensionality increase, every data point becomes arbitrarily far
 from every other data point and therefore the choice of nearest neighbor becomes random.
-In high dimension, data only covers a tiny fraction of the input space, making generalization extremely difficult. 
+In high dimension, data only covers a tiny fraction of the input space, making generalization extremely difficult.
 Or in other words, the volume of the space increases so fast that the available data become sparse.
 
 \todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
