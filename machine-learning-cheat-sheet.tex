@@ -104,6 +104,9 @@ Newton's method is equivalent to solving many least-squares problems.
 
 Complexity: $\mathcal{O}(I N D^2 + I D^3)$, with the $D^3$ cost coming from the inversion of $\bf{H_k}$.
 
+\subsection{Expectation-Maximization}
+\todo[inline]{explaining how to find MLE/MAP parameters with EM}
+
 % ----------
 \section{Regression}
 Simple linear regression: $y_n \approx \beta_0 + \beta_1 x_{n1}$
@@ -282,6 +285,12 @@ $\begin{bmatrix} \bf{y} \\ \bf{\hat{y}} \end{bmatrix} = \mathcal{N}(\bf{0},
 
 This can be conditioned on $\bf{y}$ to find the pdf of $\bf{\hat{y}}$.
 
+\section{Gaussian Mixture Models}
+\todo[inline]{Gaussian Mixture Models and maybe kMeans?}
+
+\section{SVD and PCA}
+\todo[inline]{PCA in machine learning}
+
 \section{Concepts}
 % ----------
 \subsection{Occam's Razor}
@@ -350,9 +359,13 @@ In optimization, we get to the dual like this:
 
 \todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
 
-\todo[inline]{TODO: statistical/computational tradeoff}
+\todo[inline]{TODO: statistical goodness (robust to outliers, ...) vs. computational goodness (convex, low computational complexity, ...) tradeoff. No free lunch theorem.}
 
 \todo[inline]{Definitions of: Optimality, Identifiability}
+
+\todo[inline]{Decision Trees and Random Forests and Model averaging}
+
+\todo[inline]{Time series (did we cover that? :-) )}
 
 % ---------- Footer
 \hrule
