@@ -1,0 +1,13 @@
+digraph {
+  graph [ dpi = 300 ];
+
+  z_1[label=<z<SUB>1</SUB>>]
+  z_2[label=<z<SUB>2</SUB>>]
+  z_3[label=<z<SUB>3</SUB>>]
+  y_1[label=<y<SUB>1</SUB>>]
+  y_2[label=<y<SUB>2</SUB>>]
+  z_1 -> y_1
+  z_2 -> y_1
+  z_2 -> y_2
+  z_3 -> y_2
+}

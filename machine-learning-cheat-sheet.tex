@@ -205,9 +205,21 @@ The \textbf{prior} $p(\bf{f}|\bf{X})$ encodes our prior belief about the ``true'
 
 Least-squares tries to find model parameters $\bf{\beta}$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\bf{\beta}|\bf{y})$
 
-% ----------
-\subsection{Graphical Models}
-\todo[inline]{TODO: Bayes Net: Directed acyclic graph}
+\subsection{Bayesian networks}
+We can use a Directed Acyclic Graph (DAG) to define a joint distribution of events. For example, we can express the relationship between \textit{latent factors} $z_i$ and \textit{observations} $y_i$:
+
+\begin{colfig}
+  \centering
+  \includegraphics[height=1.5cm]{images/bayesian-network.png}
+\end{colfig}
+
+The joint can then be factorized as follows:
+$p(y_1, y_2, z_1, z_2, z_3) = p(y_1 | z_1, z_2) p(y_2 | z_2, z_3) p(z_1) p(z_2) p(z_3)$
+
+We can then obtain the distribution over latent factors ($z_i$) by marginalizing over the unknown variables:
+$p(z_1, z_2, z_3 | y_1, y_2) = \frac{\text{joint}}{p(y_1, y_2)}$\\
+$\implies p(z_1 | y_1, y_2) = \sum_{z_2, z_3} \frac{\text{joint}}{p(y_1, y_2)}$
+
 \todo[inline]{TODO: Belief propagation}
 Graph between the observations and the variables is a bi-partite graph.
 
