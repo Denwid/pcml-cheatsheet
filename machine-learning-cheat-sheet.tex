@@ -76,12 +76,12 @@ $\implies p(X = k) = \frac{\lambda ^ k}{k!} \exp{(- \lambda)}$
 \subsection{Properties}
 Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
 
-A matrix $\bf{M}$ is positive semidefinite $\iff \forall$ nonzero vector $\bf{a}$, we have $\bf{a}^T \bf{M} \bf{a} > 0$
+A matrix $\bf{M}$ is positive semidefinite $\iff \forall$ nonzero vector $\bf{a}$, we have $\bf{a}^T \bf{M} \bf{a} \geq 0$
 
 Jensen's inequality applied to $\log$: $\log( \mathbb{E}[X] ) \geq \mathbb{E}[\log(X)]$ \\
 $\implies \log ( \sum_x x \cdot p(x) ) \geq \sum_x p(x) \log(x)$
 
-Matrix inversion lemma: $(\bf{PQ} + \lambda \bf{I}_N)^{-1}) \bf{P} = \bf{P}(\bf{QP} + \bf{I}_M)^{-1}$
+Matrix inversion lemma: $(\bf{PQ} + \bf{I}_N)^{-1} \bf{P} = \bf{P}(\bf{QP} + \bf{I}_M)^{-1}$
 
 Second order derivative: $\frac{\partial \bf{x^T B x}}{\partial \bf{x}} = (\bf{B + B^T}) \bf{x}$
 
@@ -259,7 +259,7 @@ The $\phi$ are not that important in the end, because we only use the Kernel as 
 Properties of a Kernel:
 \begin{itemize}
 \item $\bf{K}$ should be symmetric.
-\item $\bf{K}$ should be positive semi-definite: $\forall$ nonzero vector $\bf{a}, \bf{a}^T \bf{K} \bf{a} > 0$.
+\item $\bf{K}$ should be positive semi-definite: $\forall$ nonzero vector $\bf{a}, \bf{a}^T \bf{K} \bf{a} \geq 0$.
 \end{itemize}
 
 % ----------
