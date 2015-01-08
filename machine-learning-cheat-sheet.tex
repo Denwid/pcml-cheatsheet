@@ -278,15 +278,15 @@ $\max_{\alpha \in [0; C]^N} \alpha^T 1 - 1/2 \alpha^T Y K Y \alpha , \alpha^T y 
 
 \section{Gaussian Process}
 The predicting function $f$ is interpreted as a random variable with jointly gaussian pdf (the prior) $\mathcal{N}(f | \bf{0}, \bf{K})$.
-Defining the Kernel matrix $\bf{K} = \kappa(\bf{X}, \bf{X})$ defines the prior. The key idea is, that if $\bf{x}_i$ and $\bf{x_j}$ are 
+Defining the Kernel matrix $\bf{K} = \kappa(\bf{X}, \bf{X})$ defines the prior. The key idea is, that if $\bf{x}_i$ and $\bf{x_j}$ are
 deemed by the kernel to be similar, then we expect the output of $f$ at those points to be similar, too.
 
 We can sample functions from this random variable $f$ and we can use prior + measurements to generate predictions.
 
 If we have measurements $\bf{y}$ available, we get a joint distribution with the $\bf{\hat{y}}$ to be predicted:
 
-$\begin{bmatrix} \bf{y} \\ \bf{\hat{y}} \end{bmatrix} = \mathcal{N}(\bf{0}, 
-\begin{bmatrix} 	\kappa(\bf{X}, \bf{X}) + \sigma_n^2 I 		& \kappa(\bf{X}, \bf{\hat{X}}) \\ 
+$\begin{bmatrix} \bf{y} \\ \bf{\hat{y}} \end{bmatrix} = \mathcal{N}(\bf{0},
+\begin{bmatrix} 	\kappa(\bf{X}, \bf{X}) + \sigma_n^2 I 		& \kappa(\bf{X}, \bf{\hat{X}}) \\
 						\kappa(\bf{\hat{X}}, \bf{X}),							& \kappa(\bf{\hat{X}}, \bf{\hat{X}})
 \end{bmatrix}$
 
@@ -335,6 +335,8 @@ An estimator is said to be consistent, if it eventually recovers the true parame
 \subsection{Convexity}
 f is called convex f: $\forall x_1, x_2 \in X, \forall t \in [0, 1]: \qquad f(tx_1+(1-t)x_2)\leq t f(x_1)+(1-t)f(x_2).$
 
+Sum of two linear functions is convex. Composition of a convex function with a convex, nondecreasing function is convex.
+
 \subsection{Efficiency}
 An estimator is called efficient if it achives the Cramer-Rao lower bound:
 $\Var{(\beta)} \geq 1/I(\beta)$, where I is the fisher information.
@@ -371,8 +373,6 @@ In optimization, we get to the dual like this:
 \todo[inline]{Definitions of: Optimality, Identifiability}
 
 \todo[inline]{Decision Trees and Random Forests and Model averaging}
-
-\todo[inline]{Time series (did we cover that? :-) )}
 
 % ---------- Footer
 \hrule
