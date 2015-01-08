@@ -61,7 +61,7 @@ In supervised learning, you are also given a set of observations corresponding t
 
 We assume a \emph{true} model behind the data, the observations are noisy versions of this ground truth: $y = y_{true} + \epsilon$.
 
-The final goal is to predict a $\hat{y}$ given any $\bf{x}$.
+The final goal is to predict a $\hat{y} = f(\bf{\hat{x}})$ given any $\bf{\hat{x}}$.
 
 \subsection{Distributions}
 Multivariate gaussian distribution: $\mathcal{N}(\bf{X} | \bf{\mu} , \bf{\Sigma})$ \\
@@ -79,6 +79,10 @@ Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
 A matrix $\bf{M}$ is positive semidefinite $\iff \forall$ nonzero vector $\bf{a}$, we have $\bf{a}^T \bf{M} \bf{a} > 0$
 
 Jensen's inequality applied to $\log$: $\log ( \frac{\sum_{i=1}^n x_i}{n} ) \geq \frac{\sum_{i=1}^n \log(x_i)}{n}$
+
+Matrix inversion lemma: $(\bf{PQ} + \lambda \bf{I}_N)^{-1}) \bf{P} = \bf{P}(\bf{QP} + \bf{I}_M)^{-1}$
+
+Second order derivative: $\frac{\partial \bf{x^T B x}}{\partial \bf{x}} = (\bf{B + B^T}) \bf{x}$
 
 % ----------
 \section{Optimization methods}
@@ -106,6 +110,9 @@ where $\bf{H_k}$ is the $D \times D$ Hessian at step $k$: $\bf{H_k} = \frac{\par
 Newton's method is equivalent to solving many least-squares problems.
 
 Complexity: $\mathcal{O}(I N D^2 + I D^3)$, with the $D^3$ cost coming from the inversion of $\bf{H_k}$.
+
+\subsection{Expectation-Maximization}
+\todo[inline]{explaining how to find MLE/MAP parameters with EM}
 
 % ----------
 \section{Regression}
@@ -265,7 +272,31 @@ It minimizes the following cost function:
 
 $\mathcal{L}_{SVM} (\bf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
 
-This is convex but not differentiable.
+This is convex but not differentiable. In the dual, the same problem can be formulated as:
+
+$\max_{\alpha \in [0; C]^N} \alpha^T 1 - 1/2 \alpha^T Y K Y \alpha , \alpha^T y = 0$
+
+\section{Gaussian Process}
+The predicting function $f$ is interpreted as a random variable with jointly gaussian pdf (the prior) $\mathcal{N}(f | \bf{0}, \bf{K})$.
+Defining the Kernel matrix $\bf{K} = \kappa(\bf{X}, \bf{X})$ defines the prior. The key idea is, that if $\bf{x}_i$ and $\bf{x_j}$ are 
+deemed by the kernel to be similar, then we expect the output of $f$ at those points to be similar, too.
+
+We can sample functions from this random variable $f$ and we can use prior + measurements to generate predictions.
+
+If we have measurements $\bf{y}$ available, we get a joint distribution with the $\bf{\hat{y}}$ to be predicted:
+
+$\begin{bmatrix} \bf{y} \\ \bf{\hat{y}} \end{bmatrix} = \mathcal{N}(\bf{0}, 
+\begin{bmatrix} 	\kappa(\bf{X}, \bf{X}) + \sigma_n^2 I 		& \kappa(\bf{X}, \bf{\hat{X}}) \\ 
+						\kappa(\bf{\hat{X}}, \bf{X}),							& \kappa(\bf{\hat{X}}, \bf{\hat{X}})
+\end{bmatrix}$
+
+This can be conditioned on $\bf{y}$ to find the pdf of $\bf{\hat{y}}$.
+
+\section{Gaussian Mixture Models}
+\todo[inline]{Gaussian Mixture Models and maybe kMeans?}
+
+\section{SVD and PCA}
+\todo[inline]{PCA in machine learning}
 
 \section{Concepts}
 % ----------
@@ -324,14 +355,24 @@ Representer Theorem: For any $\bf{\beta}$ minimizing
 $$\min_\beta \sum_{n=1}^N \mathcal{L}(y_n, \bf{x}_n^T \bf{\beta}) + \sum_{d=1}^D \lambda \beta_d^2$$
 there exists an $\bf{\alpha}$ such that $\bf{\beta = X^T \alpha}$.
 
-When we have an explicit vector formulation of $\beta$, we can use the matrix inversion lemma to get it. E.g. for ridge regression:
+When we have an explicit vector formulation of $\beta$, we can use the matrix inversion lemma to get to the dual. E.g. for ridge regression:
 $$\beta = (X^T X  + \lambda I_D)^{-1} X^T y = X^T \underbrace{(X X^T + \lambda I_N)^{-1} y}_{\alpha}$$
+
+In optimization, we get to the dual like this:
+\begin{colfig}
+\centering
+\includegraphics[width=\linewidth]{images/prim-dual.png}
+\end{colfig}
 
 \todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
 
-\todo[inline]{TODO: statistical/computational tradeoff}
+\todo[inline]{TODO: statistical goodness (robust to outliers, ...) vs. computational goodness (convex, low computational complexity, ...) tradeoff. No free lunch theorem.}
 
 \todo[inline]{Definitions of: Optimality, Identifiability}
+
+\todo[inline]{Decision Trees and Random Forests and Model averaging}
+
+\todo[inline]{Time series (did we cover that? :-) )}
 
 % ---------- Footer
 \hrule
