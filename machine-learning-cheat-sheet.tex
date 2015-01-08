@@ -73,7 +73,10 @@ $\implies p(X = x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp{(- \frac{1}{2} ( \frac
 Poisson distribution: $\mathcal{P}(X| \lambda)$ \\
 $\implies p(X = k) = \frac{\lambda ^ k}{k!} \exp{(- \lambda)}$
 
-\subsection{Formulas}
+\subsection{Properties}
+Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
+
+A matrix $\bf{M}$ is positive semidefinite $\iff \forall$ nonzero vector $\bf{a}$, we have $\bf{a}^T \bf{M} \bf{a} > 0$
 
 Jensen's inequality applied to $\log$: $\log ( \frac{\sum_{i=1}^n x_i}{n} ) \geq \frac{\sum_{i=1}^n \log(x_i)}{n}$
 
@@ -248,7 +251,7 @@ The $\phi$ are not that important in the end, because we only use the Kernel as 
 Properties of a Kernel:
 \begin{itemize}
 \item $\bf{K}$ should be symmetric.
-\item $\bf{K}$ should be positive semi-definite $\forall \bf{x_i, x_j}$.
+\item $\bf{K}$ should be positive semi-definite: $\forall$ nonzero vector $\bf{a}, \bf{a}^T \bf{K} \bf{a} > 0$.
 \end{itemize}
 
 % ----------
