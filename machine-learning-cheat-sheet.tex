@@ -14,10 +14,12 @@
 \input{style.tex}
 
 % Shorthands
-\providecommand{\bf}[1]{\ensuremath{\bf{#1}}}
+\providecommand{\bf}[1]{\ensuremath{\mathbf{#1}}}
 \newcommand{\E}{\mathrm{E}}
 \newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\bbeta}{\boldsymbol\beta}
+\newcommand{\bdelta}{\boldsymbol\delta}
 
 \pdfinfo{
   /Title (Machine Learning Cheat Sheet)
@@ -93,20 +95,20 @@ Simply try values for all parameters at regular intervals.
 Complexity: $\mathcal{O}(M^D N D)$, where $M$ is the number of values tried in each dimension.
 
 \subsection{Gradient Descent}
-Update rule: $\boldsymbol\beta^{(k+1)} = \boldsymbol\beta^{(k)} - \alpha \frac{\partial \mathcal{L}(\boldsymbol\beta^{(k)})}{\partial \boldsymbol\beta}$
+Update rule: $\bbeta^{(k+1)} = \bbeta^{(k)} - \alpha \frac{\partial \mathcal{L}(\bbeta^{(k)})}{\partial \bbeta}$
 
 Complexity: $\mathcal{O}(I N D)$ where $I$ is the number of iterations we take.
 
 $\alpha$ is a parameter that needs to be chosen carefully.
 
 The gradient for MSE comes out as:
-$\frac{\partial \mathcal{L}}{\partial \boldsymbol\beta} = - \frac{1}{N} \tilde{X}^T ( \boldsymbol y - \tilde{X} \boldsymbol\beta )$
+$\frac{\partial \mathcal{L}}{\partial \bbeta} = - \frac{1}{N} \tilde{X}^T ( \boldsymbol y - \tilde{X} \bbeta )$
 
 \subsection{Newton's method}
 It uses second order derivatives information to converge faster (we approximate the objective function by a quadratic function rather than a line).
 
-General rule: $\boldsymbol\beta^{(k+1)} = \boldsymbol\beta^{(k)} - \alpha \bf{H_k^{-1}} \frac{\partial \mathcal{L}(\boldsymbol\beta^{(k)})}{\partial \boldsymbol\beta}$\\
-where $\bf{H_k}$ is the $D \times D$ Hessian at step $k$: $\bf{H_k} = \frac{\partial^2 \mathcal{L}(\boldsymbol\beta^{(k)})}{\partial \boldsymbol\beta^2}$
+General rule: $\bbeta^{(k+1)} = \bbeta^{(k)} - \alpha \bf{H_k^{-1}} \frac{\partial \mathcal{L}(\bbeta^{(k)})}{\partial \bbeta}$\\
+where $\bf{H_k}$ is the $D \times D$ Hessian at step $k$: $\bf{H_k} = \frac{\partial^2 \mathcal{L}(\bbeta^{(k)})}{\partial \bbeta^2}$
 
 Newton's method is equivalent to solving many least-squares problems.
 
@@ -134,10 +136,10 @@ Simple linear regression: $y_n \approx \beta_0 + \beta_1 x_{n1}$
 Multiple linear regression: $y_n \approx f(\bf{x}_n) := \beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + ... + \beta_D x_{nD}$
 
 \subsection{Linear basis function model}
-$y_n = \beta_0 + \sum_{i=1}^{M} \beta_i \phi_i(\bf{x_n}) =  \bf{\tilde\phi^T}(\bf{x}^T_n) \boldsymbol\beta$.
+$y_n = \beta_0 + \sum_{i=1}^{M} \beta_i \phi_i(\bf{x_n}) =  \bf{\tilde\phi^T}(\bf{x}^T_n) \bbeta$.
 The optimal $\beta$ is given by $\beta = ( \tilde{\Phi}^T \tilde{\Phi})^{-1} \tilde{\Phi}^T y$ where $\tilde{\Phi}$ is a matrix with N rows and the n-th row is $[1, \phi_1(x_n)^T,  ...,  \phi_M(x_n)^T]$.
 
-Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol \Phi}^T \tilde{\boldsymbol\Phi} + \lambda \boldsymbol I)^{-1} \tilde{\boldsymbol\Phi}^T \boldsymbol y$
+Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol\Phi}^T \tilde{\boldsymbol\Phi} + \lambda \boldsymbol I)^{-1} \tilde{\boldsymbol\Phi}^T \boldsymbol y$
 
 \subsection{Cost functions}
 \begin{colfig}
@@ -145,7 +147,7 @@ Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol \Phi}^T \tilde{\boldsymb
 \includegraphics[width=\linewidth]{images/error-functions.png}
 \end{colfig}
 
-Cost function / Loss: $\mathcal{L}(\boldsymbol\beta) = \mathcal{L}(\mathcal{D},\boldsymbol\beta)$
+Cost function / Loss: $\mathcal{L}(\bbeta) = \mathcal{L}(\mathcal{D},\bbeta)$
 
 Mean square error (MSE): $\frac{1}{2N} \sum_{n=1}^{N}\left[y_n-f(\bf{x}_i) \right]^2$
 
@@ -276,19 +278,19 @@ Properties of a Kernel:
 
 % ----------
 \section{Neural Networks}
-A feed forward Neural Network is organized in $K$ layers, each layer with $M^{(k)}$ hidden units $z_i^{(k)}$. Activations $a_i^{(k)}$ are computed as the linear combination of the previous layer's terms, with weights $\boldsymbol\beta^{(k)}$ (one $M^{(k-1)} \times 1$ vector of weights for each of the $M^{(k)}$ activations). Activations are then passed through a (possibly nonlinear) function $h$ to compute the hidden unit $z_i^{(k)}$.
+A feed forward Neural Network is organized in $K$ layers, each layer with $M^{(k)}$ hidden units $z_i^{(k)}$. Activations $a_i^{(k)}$ are computed as the linear combination of the previous layer's terms, with weights $\bbeta^{(k)}$ (one $M^{(k-1)} \times 1$ vector of weights for each of the $M^{(k)}$ activations). Activations are then passed through a (possibly nonlinear) function $h$ to compute the hidden unit $z_i^{(k)}$.
 
-$\bf{x}_n \xrightarrow{\boldsymbol\beta_i^{(1)}} a_i^{(1)} \xrightarrow{h} z_i^{(1)} \xrightarrow{\boldsymbol\beta^{(2)}} \dots \bf{z}^{(K)} = \bf{y}_n$
+$\bf{x}_n \xrightarrow{\bbeta_i^{(1)}} a_i^{(1)} \xrightarrow{h} z_i^{(1)} \xrightarrow{\bbeta^{(2)}} \dots \bf{z}^{(K)} = \bf{y}_n$
 
 \subsection{Backpropagation}
-It's an algorithm which computes the gradient of the cost $\mathcal{L}$ w.r.t. the parameters $\boldsymbol\beta^{(k)}$.
+It's an algorithm which computes the gradient of the cost $\mathcal{L}$ w.r.t. the parameters $\bbeta^{(k)}$.
 
 Forward pass: compute $a_i$, $z_i$ and $\bf{y}_n$ from $\bf{x}_n$.
 
-Backward pass: work out derivatives from outputs to the target $\boldsymbol\beta_i^{(k)}$. Using the chain rule:\\
-$\boldsymbol\delta^{(k-1)} = \frac{\partial \mathcal{L}}{\partial \bf{a}^{(k-1)}} = diag[ h'(\bf{a}^{(k-1)}) ] \bf{B^{(k)T}} \boldsymbol\delta^{(k-1)}$\\
-$\frac{\partial \mathcal{L}}{\partial \bf{B}^{(1)}} = \boldsymbol\delta^{(1)} \bf{x}^T$\\
-$\frac{\partial \mathcal{L}}{\partial \bf{B}^{(k)}} = \boldsymbol\delta^{(k)} \bf{z}^{(k)T}$
+Backward pass: work out derivatives from outputs to the target $\bbeta_i^{(k)}$. Using the chain rule:\\
+$\bdelta^{(k-1)} = \frac{\partial \mathcal{L}}{\partial \bf{a}^{(k-1)}} = diag[ h'(\bf{a}^{(k-1)}) ] \bf{B^{(k)T}} \bdelta^{(k-1)}$\\
+$\frac{\partial \mathcal{L}}{\partial \bf{B}^{(1)}} = \bdelta^{(1)} \bf{x}^T$\\
+$\frac{\partial \mathcal{L}}{\partial \bf{B}^{(k)}} = \bdelta^{(k)} \bf{z}^{(k)T}$
 
 \subsection{Regularization}
 NN are not \textit{identifiable} (existence of many local optima), therefore the maximum likelihood estimator is not \textit{consistent}.
