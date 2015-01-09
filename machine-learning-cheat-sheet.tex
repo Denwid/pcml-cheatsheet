@@ -358,6 +358,11 @@ Sum of two linear functions is convex. Composition of a convex function with a c
 An estimator is called efficient if it achives the Cramer-Rao lower bound:
 $\Var{(\beta)} \geq 1/I(\beta)$, where I is the fisher information.
 
+\subsection{Identifiability}
+We say that a statistical model $\mathcal{P} = \{P_\theta: \theta \in \Theta\}$ is identifiable if the mapping $\theta \mapsto P_\theta$ is one-to-one:
+$P_{\theta_1}=P_{\theta_2} \quad\Rightarrow\quad \theta_1=\theta_2 \quad\ \text{for all } \theta_1,\theta_2\in\Theta.$
+
+
 \subsection{Curse of dimensionality}
 The main reason behind the curse is that, with the dimensionality increase, every data point becomes arbitrarily far
 from every other data point and therefore the choice of nearest neighbor becomes random.
@@ -386,8 +391,6 @@ In optimization, we get to the dual like this:
 \todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
 
 \todo[inline]{TODO: statistical goodness (robust to outliers, ...) vs. computational goodness (convex, low computational complexity, ...) tradeoff. No free lunch theorem.}
-
-\todo[inline]{Definitions of: Optimality, Identifiability}
 
 \todo[inline]{Decision Trees and Random Forests and Model averaging}
 
