@@ -3,7 +3,7 @@
 \usepackage{calc}
 \usepackage{ifthen}
 \usepackage[landscape]{geometry}
-\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,mathtools}
 \usepackage{color,graphicx}
 \usepackage{hyperref}
 \usepackage{listings}
@@ -276,7 +276,24 @@ Properties of a Kernel:
 
 % ----------
 \section{Neural Networks}
-\todo[inline]{TODO: Intuition and notation, backpropagation, regularization techniques}
+A feed forward Neural Network is organized in $K$ layers, each layer with $M^{(k)}$ hidden units $z_i^{(k)}$. Activations $a_i^{(k)}$ are computed as the linear combination of the previous layer's terms, with weights $\boldsymbol\beta^{(k)}$ (one $M^{(k-1)} \times 1$ vector of weights for each of the $M^{(k)}$ activations). Activations are then passed through a (possibly nonlinear) function $h$ to compute the hidden unit $z_i^{(k)}$.
+
+$\bf{x}_n \xrightarrow{\boldsymbol\beta_i^{(1)}} a_i^{(1)} \xrightarrow{h} z_i^{(1)} \xrightarrow{\boldsymbol\beta^{(2)}} \dots \bf{z}^{(K)} = \bf{y}_n$
+
+\subsection{Backpropagation}
+It's an algorithm which computes the gradient of the cost $\mathcal{L}$ w.r.t. the parameters $\boldsymbol\beta^{(k)}$.
+
+Forward pass: compute $a_i$, $z_i$ and $\bf{y}_n$ from $\bf{x}_n$.
+
+Backward pass: work out derivatives from outputs to the target $\boldsymbol\beta_i^{(k)}$. Using the chain rule:\\
+$\boldsymbol\delta^{(k-1)} = \frac{\partial \mathcal{L}}{\partial \bf{a}^{(k-1)}} = diag[ h'(\bf{a}^{(k-1)}) ] \bf{B^{(k)T}} \boldsymbol\delta^{(k-1)}$\\
+$\frac{\partial \mathcal{L}}{\partial \bf{B}^{(1)}} = \boldsymbol\delta^{(1)} \bf{x}^T$\\
+$\frac{\partial \mathcal{L}}{\partial \bf{B}^{(k)}} = \boldsymbol\delta^{(k)} \bf{z}^{(k)T}$
+
+\subsection{Regularization}
+NN are not \textit{identifiable} (existence of many local optima), therefore the maximum likelihood estimator is not \textit{consistent}.
+
+NN are universal density estimators, and thus prone to severe overfitting. Techniques used to reduce overfitting include early stopping (stop optimizing when test error starts increasing) and ``weight decay'' (i.e. $L_2$ regularization).
 
 % ----------
 \section{Support Vector Machines}
