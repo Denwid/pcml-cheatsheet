@@ -334,8 +334,11 @@ $p(\bf{x}_i | \theta) = \sum_{k=1}^K \pi_k p_k(\bf{x}_i | \theta) =  \sum_{k=1}^
 
 To use this for clustering, we first fit this mixture and then compute the posterior $p(z_i = k | \bf{x}_i, \theta)$.
 
-\section{SVD and PCA}
-\todo[inline]{PCA in machine learning}
+\section{PCA and SVD}
+Finds the eigenvectors of the covariance matrix of the data. These form an orthonormal basis $\{ \bf{w}_1, ..., \bf{w}_N\}$ for the data in the directions that have highest variance. 
+One can then use the first $L < D$ vectors to rebuild the data: $\bf{\hat{x}}_i = \bf{W} \bf{z}_i = \bf{W} \bf{W}^T \bf{x}_i$, with $\bf{W} = \begin{bmatrix} \bf{w}_1 \\ ... \\ \bf{w}_L \end{bmatrix}$. 
+This minimizes mean square error $\frac{1}{N} \sum_{i=1}^N \bf{x}_i - \bf{\hat{x}}_i^2$.
+\todo[inline]{Connection to SVD}
 
 \section{Concepts}
 % ----------
