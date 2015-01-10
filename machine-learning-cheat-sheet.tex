@@ -193,11 +193,12 @@ $\beta = ( \tilde{X}^T \tilde{X} )^{-1} \tilde{X}^T y$
 
 % ----------
 \section{Classification}
-Logistic Function $\sigma = \frac{exp(x)}{1+exp(x)}$
+Logistic Function: $\sigma(t) = \frac{exp(t)}{1+exp(t)}$\\
+Derivative: $\frac{ \partial\sigma(t) }{ \partial t } = \sigma(t)[ 1 - \sigma(t) ]$
 
-Classification with linear regression: Use $y = 0$ as class $\mathcal{C_1}$
-and $y = 1$ as class $\mathcal{C_2}$ and then decide a newly estimated $y$ belongs
-to $\mathcal{C_1}$ if $y < 0.5$.
+Classification with linear regression: Use $y = 0$ as class $\mathcal{C}_1$
+and $y = 1$ as class $\mathcal{C}_2$ and then decide a newly estimated $y$ belongs
+to $\mathcal{C}_1$ if $y < 0.5$.
 
 \subsection{Logistic Regression}
 $\tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - y] = 0$
