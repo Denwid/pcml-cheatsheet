@@ -96,7 +96,7 @@ p(\bf{y}|\bf{x}) &= \mathcal{N}(\bf{y} | \bf{Ax + b, L}^-1) \\
 \Downarrow \\
 p(\bf{y}) &= \mathcal{N}(\bf{y} | \bf{A} \boldsymbol\mu + \bf{b}, \bf{L}^-1 + \bf{A} \boldsymbol\Lambda^-1 \bf{A}^T)	\\
 p(\bf{x}|\bf{y}) &= \mathcal{N}(\bf{x} |\boldsymbol\Sigma \{ \bf{L(y - b) + \Lambda \mu} \}, \boldsymbol\Sigma) \\
-\text{where } \boldsymbol\Sigma &= (\boldsymbol\Lambda + \bf{A^T L A})^{-1} 
+\text{where } \boldsymbol\Sigma &= (\boldsymbol\Lambda + \bf{A^T L A})^{-1}
 \end{aligned}
 $$
 
@@ -304,7 +304,7 @@ It's an algorithm which computes the gradient of the cost $\mathcal{L}$ w.r.t. t
 Forward pass: compute $a_i$, $z_i$ and $\bf{y}_n$ from $\bf{x}_n$.
 
 Backward pass: work out derivatives from outputs to the target $\bbeta_i^{(k)}$. Using the chain rule:\\
-$\bdelta^{(k-1)} = \frac{\partial \mathcal{L}}{\partial \bf{a}^{(k-1)}} = diag[ h'(\bf{a}^{(k-1)}) ] \bf{B^{(k)T}} \bdelta^{(k-1)}$\\
+$\bdelta^{(k-1)} = \frac{\partial \mathcal{L}}{\partial \bf{a}^{(k-1)}} = diag[ h'(\bf{a}^{(k-1)}) ] \bf{B^{(k)T}} \bdelta^{(k)}$\\
 $\frac{\partial \mathcal{L}}{\partial \bf{B}^{(1)}} = \bdelta^{(1)} \bf{x}^T$\\
 $\frac{\partial \mathcal{L}}{\partial \bf{B}^{(k)}} = \bdelta^{(k)} \bf{z}^{(k)T}$
 
@@ -348,8 +348,8 @@ $p(\bf{x}_i | \theta) = \sum_{k=1}^K \pi_k p_k(\bf{x}_i | \theta) =  \sum_{k=1}^
 To use this for clustering, we first fit this mixture and then compute the posterior $p(z_i = k | \bf{x}_i, \theta)$.
 
 \section{PCA and SVD}
-Finds the eigenvectors of the covariance matrix of the data. These form an orthonormal basis $\{ \bf{w}_1, ..., \bf{w}_N\}$ for the data in the directions that have highest variance. 
-One can then use the first $L < D$ vectors to rebuild the data: $\bf{\hat{x}}_i = \bf{W} \bf{z}_i = \bf{W} \bf{W}^T \bf{x}_i$, with $\bf{W} = \begin{bmatrix} \bf{w}_1 \\ ... \\ \bf{w}_L \end{bmatrix}$. 
+Finds the eigenvectors of the covariance matrix of the data. These form an orthonormal basis $\{ \bf{w}_1, ..., \bf{w}_N\}$ for the data in the directions that have highest variance.
+One can then use the first $L < D$ vectors to rebuild the data: $\bf{\hat{x}}_i = \bf{W} \bf{z}_i = \bf{W} \bf{W}^T \bf{x}_i$, with $\bf{W} = \begin{bmatrix} \bf{w}_1 \\ ... \\ \bf{w}_L \end{bmatrix}$.
 This minimizes mean square error $\frac{1}{N} \sum_{i=1}^N \bf{x}_i - \bf{\hat{x}}_i^2$.
 \todo[inline]{Connection to SVD}
 
