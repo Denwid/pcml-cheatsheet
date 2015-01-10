@@ -77,16 +77,16 @@ Poisson distribution: $\mathcal{P}(X| \lambda)$ \\
 $\implies p(X = k) = \frac{\lambda ^ k}{k!} \exp{(- \lambda)}$
 
 \subsection{Properties}
-Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
+\textbf{Bayes rule}: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
 
-A matrix $\bf{M}$ is positive semidefinite $\iff \forall$ nonzero vector $\bf{a}$, we have $\bf{a}^T \bf{M} \bf{a} \geq 0$
+A matrix $\bf{M}$ is \textbf{positive semidefinite} $\iff \forall$ nonzero vector $\bf{a}$, we have $\bf{a}^T \bf{M} \bf{a} \geq 0$
 
-Jensen's inequality applied to $\log$: $\log( \mathbb{E}[X] ) \geq \mathbb{E}[\log(X)]$ \\
+\textbf{Jensen's inequality} applied to $\log$: $\log( \mathbb{E}[X] ) \geq \mathbb{E}[\log(X)]$ \\
 $\implies \log ( \sum_x x \cdot p(x) ) \geq \sum_x p(x) \log(x)$
 
-Matrix inversion lemma: $(\bf{PQ} + \bf{I}_N)^{-1} \bf{P} = \bf{P}(\bf{QP} + \bf{I}_M)^{-1}$
+\textbf{Matrix inversion lemma}: $(\bf{PQ} + \bf{I}_N)^{-1} \bf{P} = \bf{P}(\bf{QP} + \bf{I}_M)^{-1}$
 
-Second order derivative: $\frac{\partial \bf{x^T B x}}{\partial \bf{x}} = (\bf{B + B^T}) \bf{x}$
+Useful derivative: $\frac{\partial \bf{x^T B x}}{\partial \bf{x}} = (\bf{B + B^T}) \bf{x}$
 
 Marginal and Conditional Gaussians:
 $$
@@ -137,7 +137,7 @@ The problem is, that this likelihood can oftentimes not be optimized in closed f
 
 The solution is EM: Iteratively find better $\btheta$, start with $\btheta_0$ and iterate with variable $t$:
 \begin{itemize}
-\item E-step calculates the $E$ of log likelihood, with respect to $\bf{Z}$ given $\bf{X}$ under the current estimate $\btheta_t$: $Q(\btheta, \btheta_t) = E_{\bf{Z}|\bf{X},\btheta_t} [ log ( p(\bf{X}, \bf{Z} | \btheta) | X = x ]$
+\item E-step calculates the $\mathbb{E}$ of log likelihood, with respect to $\bf{Z}$ given $\bf{X}$ under the current estimate $\btheta_t$: $Q(\btheta, \btheta_t) = \mathbb{E}_{\bf{Z}|\bf{X},\btheta_t} [ log ( p(\bf{X}, \bf{Z} | \btheta) | X = x ]$
 \item M-step finds next estimate that maximizes: $\btheta_{t+1} = \argmax_{\btheta} Q(\btheta, \btheta_t)$
 \item Iterate until convergence.
 \end{itemize}
@@ -201,7 +201,9 @@ and $y = 1$ as class $\mathcal{C}_2$ and then decide a newly estimated $y$ belon
 to $\mathcal{C}_1$ if $y < 0.5$.
 
 \subsection{Logistic Regression}
-$\tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - y] = 0$
+$\frac{ \partial\mathcal{L}(\bbeta) }{ \partial \bbeta } = \tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - \bf{y}]$
+
+There's no closed form, we can use gradient descent.
 
 \subsection{Generalized linear model}
 The GLM consists of three elements:
@@ -215,14 +217,14 @@ In a generalized linear model (GLM), each outcome of the dependent variables $y$
 
 
 \subsection{Cost functions}
-Root Mean square error (RMSE): $\sqrt{\frac{1}{N} \sum_{n=1}^{N}\left[y_n- \hat{p_n} \right]^2}$
+RMSE: $\sqrt{\frac{1}{N} \sum_{n=1}^{N}\left[y_n- \hat{p_n} \right]^2}$
 
 0-1 Loss: $ \frac{1}{N} \sum_{n=1}^{N} \delta(y_n, \hat{y_n})$
 
-logLoss: $- \frac{1}{N}  \sum_{n=1}^{N} y_n \log(\hat{p_n}) + (1-y_n) \log(1-\hat{p_n})$
+Log-Loss: $- \frac{1}{N}  \sum_{n=1}^{N} y_n \log(\hat{p_n}) + (1-y_n) \log(1-\hat{p_n})$
 
 % ----------
-\section{Maximum Likelihood}
+\section{Probabilistic framework}
 The Likelihood Function maps the model parameters to the probability distribution of $\bf{y}$:
 $\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \bf{\beta} \mapsto p(\bf{y} \mid  \bf{\beta})$
 An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\bf{y} \mid \beta) = \prod_n p(y_n \mid \beta)$.
@@ -241,8 +243,7 @@ Assuming different $p$ is basically what makes this so flexible. We can chose e.
 It is a sample approximation of the expected likelihood:
 $\mathcal{L}_{lik}(\boldsymbol{\beta}) \approx E_y[ p(y \mid  \boldsymbol{\beta}) ]$
 
-% ----------
-\section{Bayesian methods}
+\subsection{Bayesian methods}
 Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
 
 The \textbf{prior} $p(\bf{f}|\bf{X})$ encodes our prior belief about the ``true'' model $\bf{f}$. The \textbf{likelihood} $p(\bf{y}|\bf{f})$ measures the probability of our (possibly noisy) observations given the prior.
@@ -250,14 +251,14 @@ The \textbf{prior} $p(\bf{f}|\bf{X})$ encodes our prior belief about the ``true'
 Least-squares tries to find model parameters $\bf{\beta}$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\bf{\beta}|\bf{y})$
 
 \subsection{Bayesian networks}
-We can use a Directed Acyclic Graph (DAG) to define a joint distribution of events. For example, we can express the relationship between \textit{latent factors} $z_i$ and \textit{observations} $y_i$:
+We can use a Directed Acyclic Graph (DAG) to define a joint distribution of events. For example, we can express the relationship between \textit{latent factors} (possible ``causes'') $z_i$ and \textit{observations} (results) $y_i$:
 
 \begin{colfig}
   \centering
   \includegraphics[height=1.5cm]{images/bayesian-network.png}
 \end{colfig}
 
-The joint can then be factorized as follows:
+This example can be factorized as follows:
 $p(y_1, y_2, z_1, z_2, z_3) = p(y_1 | z_1, z_2) p(y_2 | z_2, z_3) p(z_1) p(z_2) p(z_3)$
 
 We can then obtain the distribution over latent factors ($z_i$) by marginalizing over the unknown variables:
@@ -273,7 +274,7 @@ $m_{y_j \rightarrow z_i} = \sum_{z_k \neq z_i} p(y_j | z_k) \Pi(\text{messages r
 
 % ----------
 \section{Kernel methods}
-Basically, Kernels are a mean to measure distance, or ``similarity'' of two vectors. We define:
+Kernels are another way to encode our prior believe about the relation of outputs to inputs. A kernel defines a distance measure, or ``similarity'' of two vectors. We define:
 
 $(\bf{K})_{i,j} = \kappa(\bf{x_i}, \bf{x_j}) = \vec \phi(\bf{x_i})^T \vec \phi(\bf{x_j})$.
 
@@ -291,7 +292,7 @@ The $\phi$ are not that important in the end, because we only use the Kernel as 
 
 Properties of a Kernel:
 \begin{itemize}
-\item $\bf{K}$ should be symmetric.
+\item $\bf{K}$ should be symmetric: $\bf{K}^T = \bf{K}$
 \item $\bf{K}$ should be positive semi-definite: $\forall$ nonzero vector $\bf{a}, \bf{a}^T \bf{K} \bf{a} \geq 0$.
 \end{itemize}
 
@@ -318,10 +319,12 @@ NN are universal density estimators, and thus prone to severe overfitting. Techn
 
 % ----------
 \section{Support Vector Machines}
-Search for the hyperplane separating the data such that the gap is biggest.
-It minimizes the following cost function:
+Search for the hyperplane separating the data such that the gap (margin) is biggest.
+It minimizes the following cost function (``hinge loss''):
 
 $\mathcal{L}_{SVM} (\bf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
+
+with $[t]_{+} = \max(0, t)$
 
 This is convex but not differentiable. In the dual, the same problem can be formulated as:
 
@@ -358,10 +361,10 @@ In mixture models, the data is generated by a sum (a mix) of $K$ models. For GMM
 
 $p(\bf{x}_i | \theta) = \sum_{k=1}^K \pi_k p_k(\bf{x}_i | \theta) =  \sum_{k=1}^K \pi_k \mathcal{N}(\bf{x}_i | \underbrace{\bf{\mu}_k, \bf{\Sigma}_k}_{\theta})$
 
-To use this for clustering, we first fit this mixture and then compute the posterior $p(z_i = k | \bf{x}_i, \theta)$.
+To use this for clustering, we first fit this mixture and then compute the posterior $p(z_i = k | \bf{x}_i, \theta)$. This yields \textit{soft} cluster assignments.
 
 \section{PCA and SVD}
-Finds the eigenvectors of the covariance matrix of the data. These form an orthonormal basis $\{ \bf{w}_1, ..., \bf{w}_N\}$ for the data in the directions that have highest variance.
+Find the eigenvectors of the covariance matrix of the data. These form an orthonormal basis $\{ \bf{w}_1, ..., \bf{w}_N\}$ for the data in the directions that have highest variance.
 One can then use the first $L < D$ vectors to rebuild the data: $\bf{\hat{x}}_i = \bf{W} \bf{z}_i = \bf{W} \bf{W}^T \bf{x}_i$, with $\bf{W} = \begin{bmatrix} \bf{w}_1 \\ ... \\ \bf{w}_L \end{bmatrix}$.
 This minimizes mean square error $\frac{1}{N} \sum_{i=1}^N \bf{x}_i - \bf{\hat{x}}_i^2$.
 \todo[inline]{Connection to SVD}
@@ -369,7 +372,7 @@ This minimizes mean square error $\frac{1}{N} \sum_{i=1}^N \bf{x}_i - \bf{\hat{x
 \section{Concepts}
 % ----------
 \subsection{Occam's Razor}
-It states that among competing hypotheses, the one with the fewest assumptions should be selected. Other, more complicated solutions may ultimately prove correct, but—in the absence of certainty—the fewer assumptions that are made, the better.
+It states that among competing hypotheses, the one with the fewest assumptions should be selected. Other, more complicated solutions may ultimately prove correct, but in the absence of certainty, the fewer assumptions that are made, the better.
 
 % ----------
 \subsection{Bias-Variance Decomposition}
@@ -407,21 +410,22 @@ Sum of two convex functions is convex. Composition of a convex function with a c
 
 \subsection{Efficiency}
 An estimator is called efficient if it achives the Cramer-Rao lower bound:
-$\Var{(\beta)} \geq 1/I(\beta)$, where I is the fisher information.
+$\Var{(\beta)} \geq 1/I(\beta)$, where I is the Fisher information.
 
 \subsection{Identifiability}
 We say that a statistical model $\mathcal{P} = \{P_\theta: \theta \in \Theta\}$ is identifiable if the mapping $\theta \mapsto P_\theta$ is one-to-one:
 $P_{\theta_1}=P_{\theta_2} \quad\Rightarrow\quad \theta_1=\theta_2 \quad\ \text{for all } \theta_1,\theta_2\in\Theta.$
 
+A non-identifiable model will typically have many local optima yielding the same cost, e.g. $\mathcal{L}(W, Z) = \mathcal{L}(aW, \frac{1}{a} Z)$
 
 \subsection{Curse of dimensionality}
-The main reason behind the curse is that, with the dimensionality increase, every data point becomes arbitrarily far
+With the dimensionality increase, every data point becomes arbitrarily far
 from every other data point and therefore the choice of nearest neighbor becomes random.
 In high dimension, data only covers a tiny fraction of the input space, making generalization extremely difficult.
 Or in other words, the volume of the space increases so fast that the available data become sparse.
 
 \subsection{Primal vs. Dual}
-Instead of working in the column space of our data, we can work in the row space:
+Instead of working in the \textbf{column space} of our data, we can work in the \textbf{row space}:
 $$\bf{\hat{y} = X \beta = X X^T \alpha = K \alpha}$$
 where $\bf{\beta} \in \mathbb{R}^D$ and $\bf{\alpha} \in \mathbb{R}^N$
 and (like magic) $\bf{K}$ shows up, the Kernel Matrix.
