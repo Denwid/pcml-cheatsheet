@@ -20,6 +20,7 @@
 \newcommand{\Cov}{\mathrm{Cov}}
 \newcommand{\bbeta}{\boldsymbol\beta}
 \newcommand{\bdelta}{\boldsymbol\delta}
+\newcommand{\btheta}{\boldsymbol\theta}
 
 \pdfinfo{
   /Title (Machine Learning Cheat Sheet)
@@ -117,15 +118,15 @@ Complexity: $\mathcal{O}(I N D^2 + I D^3)$, with the $D^3$ cost coming from the 
 \subsection{Expectation-Maximization}
 EM is a family of methods to find a MLE/MAP estimator if some of the data is missing (e.g. latent variables):
 
-Given is some data $\bf{x}$ and  a model with some latent variables $\bf{z}$ and a likelihood $\mathcal{L}(\beta | \bf{x}, \bf{z})$ (e.g. a gaussian where we need to find the mean and the covariance).
-Goal is to find $\beta = \argmax_{\beta} \mathcal{L}_{lik}(\beta | x)$, i.e. the MLE given only the data, without knowing the latent variables.
+Given is some data $\bf{x}$ and  a model with some latent variables $\bf{z}$ and a likelihood $\mathcal{L}(\btheta; \bf{x}, \bf{z})$ (e.g. a gaussian where we need to find the mean and the covariance).
+Goal is to find $\beta = \argmax_{\beta} \mathcal{L}_{lik}(\btheta; x)$, i.e. the MLE given only the data, without knowing the latent variables.
 
-The problem is, that this likelihood can oftentimes not be optimized in closed form with respect to $\beta$.
+The problem is, that this likelihood can oftentimes not be optimized in closed form with respect to $\btheta$.
 
-The solution is EM: Iteratively find better $\beta$, start with $\beta_0$ and iterate with variable $t$:
+The solution is EM: Iteratively find better $\btheta$, start with $\btheta_0$ and iterate with variable $t$:
 \begin{itemize}
-\item E-step: $Q(\beta, \beta_t) = E_{\beta_t} [ log ( p(\bf{X}, \bf{Z} | \beta) | X = x ]$
-\item M-step: $\beta_{t+1} = \argmax_\beta Q(\beta, \beta_t)$
+\item E-step calculates the $E$ of log likelihood, with respect to $\bf{Z}$ given $\bf{X}$ under the current estimate $\btheta_t$: $Q(\btheta, \btheta_t) = E_{\bf{Z}|\bf{X},\btheta_t} [ log ( p(\bf{X}, \bf{Z} | \btheta) | X = x ]$
+\item M-step finds next estimate that maximizes: $\btheta_{t+1} = \argmax_{\btheta} Q(\btheta, \btheta_t)$
 \item Iterate until convergence.
 \end{itemize}
 
