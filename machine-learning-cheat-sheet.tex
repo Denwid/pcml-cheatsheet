@@ -203,7 +203,7 @@ $\tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - y] = 0$
 \subsection{Generalized linear model}
 The GLM consists of three elements:
 \begin{itemize}
-	\item A probability distribution from the exponential family.
+  \item A probability distribution from the exponential family.
   \item A linear predictor $\hat y = \bf{X} \bf{\beta}$ .
   \item A link function g such that $E(y) = \mu = g^{-1}(\eta)$.
 \end{itemize}
@@ -333,10 +333,20 @@ We can sample functions from this random variable $f$ and we can use prior + mea
 
 If we have measurements $\bf{y}$ available, we get a joint distribution with the $\bf{\hat{y}}$ to be predicted:
 
-$\begin{bmatrix} \bf{y} \\ \bf{\hat{y}} \end{bmatrix} = \mathcal{N}(\bf{0},
-\begin{bmatrix} 	\kappa(\bf{X}, \bf{X}) + \sigma_n^2 I 		& \kappa(\bf{X}, \bf{\hat{X}}) \\
-						\kappa(\bf{\hat{X}}, \bf{X}),							& \kappa(\bf{\hat{X}}, \bf{\hat{X}})
-\end{bmatrix}$
+$
+\begin{bmatrix}
+  \bf{y} \\
+  \bf{\hat{y}}
+\end{bmatrix}
+=
+\mathcal{N} \left(
+  \bf{0},
+  \begin{bmatrix}
+    \kappa(\bf{X}, \bf{X}) + \sigma_n^2 I  & \kappa(\bf{X}, \bf{\hat{X}}) \\
+    \kappa(\bf{\hat{X}}, \bf{X}),          & \kappa(\bf{\hat{X}}, \bf{\hat{X}})
+  \end{bmatrix}
+\right)
+$
 
 This can be conditioned on $\bf{y}$ to find the pdf of $\bf{\hat{y}}$.
 
