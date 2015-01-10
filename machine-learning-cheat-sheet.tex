@@ -88,6 +88,18 @@ Matrix inversion lemma: $(\bf{PQ} + \bf{I}_N)^{-1} \bf{P} = \bf{P}(\bf{QP} + \bf
 
 Second order derivative: $\frac{\partial \bf{x^T B x}}{\partial \bf{x}} = (\bf{B + B^T}) \bf{x}$
 
+Marginal and Conditional Gaussians:
+$$
+\begin{aligned}
+p(\bf{x}) &= \mathcal{N}(\bf{x} | \boldsymbol\mu, \boldsymbol\Lambda^-1) \\
+p(\bf{y}|\bf{x}) &= \mathcal{N}(\bf{y} | \bf{Ax + b, L}^-1) \\
+\Downarrow \\
+p(\bf{y}) &= \mathcal{N}(\bf{y} | \bf{A} \boldsymbol\mu + \bf{b}, \bf{L}^-1 + \bf{A} \boldsymbol\Lambda^-1 \bf{A}^T)	\\
+p(\bf{x}|\bf{y}) &= \mathcal{N}(\bf{x} |\boldsymbol\Sigma \{ \bf{L(y - b) + \Lambda \mu} \}, \boldsymbol\Sigma) \\
+\text{where } \boldsymbol\Sigma &= (\boldsymbol\Lambda + \bf{A^T L A})^{-1} 
+\end{aligned}
+$$
+
 % ----------
 \section{Optimization methods}
 
