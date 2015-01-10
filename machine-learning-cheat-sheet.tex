@@ -157,10 +157,10 @@ The optimal $\beta$ can be computed in closed form by $\beta = ( \tilde{\Phi}^T 
 Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol\Phi}^T \tilde{\boldsymbol\Phi} + \lambda \boldsymbol I)^{-1} \tilde{\boldsymbol\Phi}^T \boldsymbol y$
 
 \subsection{Cost functions}
-\begin{colfig}
-\centering
-\includegraphics[width=\linewidth]{images/error-functions.png}
-\end{colfig}
+%\begin{colfig}
+%\centering
+%\includegraphics[width=\linewidth]{images/error-functions.png}
+%\end{colfig}
 
 Cost function / Loss: $\mathcal{L}(\bbeta) = \mathcal{L}(\mathcal{D},\bbeta)$
 
@@ -365,12 +365,19 @@ $p(\bf{x}_i | \theta) = \sum_{k=1}^K \pi_k p_k(\bf{x}_i | \theta) =  \sum_{k=1}^
 To use this for clustering, we first fit this mixture and then compute the posterior $p(z_i = k | \bf{x}_i, \theta)$. This yields \textit{soft} cluster assignments.
 
 % ----------
-\section{PCA and SVD}
-Find the eigenvectors of the covariance matrix of the data. These form an orthonormal basis $\{ \bf{w}_1, ..., \bf{w}_N\}$ for the data in the directions that have highest variance.
-One can then use the first $L < D$ vectors to rebuild the data: $\bf{\hat{x}}_i = \bf{W} \bf{z}_i = \bf{W} \bf{W}^T \bf{x}_i$, with $\bf{W} = \begin{bmatrix} \bf{w}_1 \\ ... \\ \bf{w}_L \end{bmatrix}$.
+\section{PCA}
+Find the eigenvectors of the covariance matrix $\bf{X^T X}$ of the data. These form an orthonormal basis $\{ \bf{w}_1, ..., \bf{w}_N\}$ for the data in the directions that have highest variance.
+One can then use the first $L < D$ vectors to rebuild the data: $\bf{\hat{x}}_i = \bf{W} \bf{z}_i = \bf{W} \bf{W}^T \bf{x}_i$, with $\bf{W} = \begin{bmatrix} \bf{w}_1 ; ... ; \bf{w}_L \end{bmatrix}$.
 This minimizes mean square error $\frac{1}{N} \sum_{i=1}^N \bf{x}_i - \bf{\hat{x}}_i^2$.
-\todo[inline]{TODO: Connection to SVD}
 
+\section{SVD}
+The same as with PCA, we can do with SVD:
+\begin{colfig}
+  \centering
+  \includegraphics[width=\linewidth]{images/svd.png}
+\end{colfig}
+
+The singular vals of a $N \times D$ matrix $\bf{X}$ are the square roots of the eigenvalues of the $D \times D$ matrix $\bf{X^T X}$
 % ----------
 \section{Concepts}
 
@@ -457,6 +464,7 @@ It states that among competing hypotheses, the one with the fewest assumptions s
 Most material was taken from the lecture notes of \href{http://people.epfl.ch/228491}{Prof. Emtiyaz Khan}.\\
 Cost functions figure from Patrick Breheny's slides.\\
 Biais-variance decomposition figure from Hastie, Tibshirani, Friedman, \textit{The Elements of Statistical Learning}.
+The SVD figure from Kevin P. Murphy, \textit{Machine Learning, A Probabilistic Perspective}.
 
 % ---------- Footer
 \hrule
