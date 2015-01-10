@@ -149,8 +149,10 @@ Simple linear regression: $y_n \approx \beta_0 + \beta_1 x_{n1}$
 Multiple linear regression: $y_n \approx f(\bf{x}_n) := \beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + ... + \beta_D x_{nD}$
 
 \subsection{Linear basis function model}
+We can create more complex models while staying in the linear framework by transforming the inputs $X$ of dimensionality $D$ through a function $\phi : D \rightarrow M$.
+
 $y_n = \beta_0 + \sum_{i=1}^{M} \beta_i \phi_i(\bf{x_n}) =  \bf{\tilde\phi^T}(\bf{x}^T_n) \bbeta$.
-The optimal $\beta$ is given by $\beta = ( \tilde{\Phi}^T \tilde{\Phi})^{-1} \tilde{\Phi}^T y$ where $\tilde{\Phi}$ is a matrix with N rows and the n-th row is $[1, \phi_1(x_n)^T,  ...,  \phi_M(x_n)^T]$.
+The optimal $\beta$ can be computed in closed form by $\beta = ( \tilde{\Phi}^T \tilde{\Phi})^{-1} \tilde{\Phi}^T y$ where $\tilde{\Phi}$ is a matrix with N rows and the n-th row is $[1, \phi_1(x_n)^T,  ...,  \phi_M(x_n)^T]$. But note this requires $\tilde{\Phi}^T \tilde{\Phi}$ to be invertible (well-conditionned: $\tilde\phi$ full column-rank).
 
 Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol\Phi}^T \tilde{\boldsymbol\Phi} + \lambda \boldsymbol I)^{-1} \tilde{\boldsymbol\Phi}^T \boldsymbol y$
 
