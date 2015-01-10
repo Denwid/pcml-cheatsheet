@@ -56,7 +56,7 @@
 % ----------
 \section{General}
 \subsection{Dataset and Definitions}
-$\mathcal{D}$ is a set of training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\bf{x}_n = \begin{bmatrix} x_{n1} \quad x_{n2} \quad ... \quad x_{nD} \end{bmatrix}^T$
+$\mathcal{D}$ is a set of training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\bf{x}_n = \begin{bmatrix} x_{n1} \quad x_{n2} \quad ... \quad x_{nD} \end{bmatrix}$
 
 We write all N training examples in a matrix: $\bf{X} = \begin{bmatrix} \bf{x}_1 ; \quad \bf{x}_2 ; \quad ... ; \quad \bf{x}_N \end{bmatrix}$
 
@@ -189,7 +189,7 @@ Complexity: $\mathcal{O}(ND^2 + D^3)$
 The gradient of the MSE set to zero is called the normal equation:
 $$ - \bf{y^T X} + \bf{X^T X \bbeta} = 0$$
 We can solve this for $\beta$ directly (by matrix manipulation)
-$\bpbeta = ( \bf{\tilde{X}}^T \bf{\tilde{X}} )^{-1} \bf{\tilde{X}}^T y$
+$\bbeta = ( \bf{\tilde{X}}^T \bf{\tilde{X}} )^{-1} \bf{\tilde{X}}^T y$
 
 % ----------
 \section{Classification}
