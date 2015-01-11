@@ -14,13 +14,15 @@
 \input{style.tex}
 
 % Shorthands
-\providecommand{\bf}[1]{\ensuremath{\mathbf{#1}}}
+\renewcommand{\bf}[1]{\ensuremath{\mathbf{#1}}}
 \newcommand{\E}{\mathrm{E}}
 \newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\balpha}{\boldsymbol\alpha}
 \newcommand{\bbeta}{\boldsymbol\beta}
 \newcommand{\bdelta}{\boldsymbol\delta}
 \newcommand{\btheta}{\boldsymbol\theta}
+\newcommand{\bPhi}{\boldsymbol\Phi}
 
 \pdfinfo{
   /Title (Machine Learning Cheat Sheet)
@@ -152,9 +154,9 @@ Multiple linear regression: $y_n \approx f(\bf{x}_n) := \beta_0 + \beta_1 x_{n1}
 We can create more complex models while staying in the linear framework by transforming the inputs $X$ of dimensionality $D$ through a function $\phi : D \rightarrow M$.
 
 $y_n = \beta_0 + \sum_{i=1}^{M} \beta_i \phi_i(\bf{x_n}) =  \bf{\tilde\phi^T}(\bf{x}^T_n) \bbeta$.
-The optimal $\beta$ can be computed in closed form by $\beta = ( \tilde{\Phi}^T \tilde{\Phi})^{-1} \tilde{\Phi}^T y$ where $\tilde{\Phi}$ is a matrix with N rows and the n-th row is $[1, \phi_1(x_n)^T,  ...,  \phi_M(x_n)^T]$. But note this requires $\tilde{\Phi}^T \tilde{\Phi}$ to be invertible (well-conditionned: $\tilde\phi$ full column-rank).
+The optimal $\bbeta$ can be computed in closed form by $\bbeta = ( \tilde{\bPhi}^T \tilde{\bPhi})^{-1} \tilde{\bPhi}^T y$ where $\tilde{\bPhi}$ is a matrix with N rows and the n-th row is $[1, \phi_1(\bf{x}_n),  ...,  \phi_M(\bf{x}_n)]$. But note this requires $\tilde{\bPhi}^T \tilde{\bPhi}$ to be invertible (well-conditionned: $\tilde\bPhi$ full column-rank).
 
-Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol\Phi}^T \tilde{\boldsymbol\Phi} + \lambda \boldsymbol I)^{-1} \tilde{\boldsymbol\Phi}^T \boldsymbol y$
+Ridge regression: $\bbeta_{ridge} = ( \tilde{\boldsymbol\Phi}^T \tilde{\boldsymbol\Phi} + \lambda \boldsymbol I)^{-1} \tilde{\boldsymbol\Phi}^T \boldsymbol y$
 
 \subsection{Cost functions}
 %\begin{colfig}
@@ -166,7 +168,7 @@ Cost function / Loss: $\mathcal{L}(\bbeta) = \mathcal{L}(\mathcal{D},\bbeta)$
 
 Mean square error (MSE): $\frac{1}{2N} \sum_{n=1}^{N}\left[y_n-f(\bf{x}_i) \right]^2$
 
-MSE matrix formulation: $\frac{1}{2N} (\bf{y - X \beta})^T (\bf{y - X \beta})$
+MSE matrix formulation: $\frac{1}{2N} (\bf{y - X \bbeta})^T (\bf{y - X \bbeta})$
 
 Mean absolute error (MAE): $\frac{1}{2N} \sum_{n=1}^{N}\left | y_n-f(\bf{x}_i) \right |$
 
@@ -187,9 +189,9 @@ $\mathcal{L}_{\epsilon}(y, \hat{y}) = \begin{cases}
 \section{Least squares}
 Complexity: $\mathcal{O}(ND^2 + D^3)$
 The gradient of the MSE set to zero is called the normal equation:
-$$ - \bf{y^T X} + \bf{X^T X \bbeta} = 0$$
-We can solve this for $\beta$ directly (by matrix manipulation)
-$\bbeta = ( \bf{\tilde{X}}^T \bf{\tilde{X}} )^{-1} \bf{\tilde{X}}^T y$
+$$ - \bf{y}^T \bf{X} + \bf{X}^T \bf{X} \bbeta = 0$$
+We can solve this for $\bbeta$ directly (by matrix manipulation)
+$\bbeta = ( \bf{\tilde{X}}^T \bf{\tilde{X}} )^{-1} \bf{\tilde{X}}^T \bf{y}$
 
 % ----------
 \section{Classification}
@@ -201,7 +203,7 @@ and $y = 1$ as class $\mathcal{C}_2$ and then decide a newly estimated $y$ belon
 to $\mathcal{C}_1$ if $y < 0.5$.
 
 \subsection{Logistic Regression}
-$\frac{ \partial\mathcal{L}(\bbeta) }{ \partial \bbeta } = \tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - \bf{y}]$
+$\frac{ \partial\mathcal{L}(\bbeta) }{ \partial \bbeta } = \tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \bbeta) - \bf{y}]$
 
 There's no closed form, we can use gradient descent.
 
@@ -209,7 +211,7 @@ There's no closed form, we can use gradient descent.
 The GLM consists of three elements:
 \begin{itemize}
   \item A probability distribution from the exponential family.
-  \item A linear predictor $\hat y = \bf{X} \bf{\beta}$ .
+  \item A linear predictor $\hat y = \bf{X} \bbeta$ .
   \item A link function g such that $E(y) = \mu = g^{-1}(\eta)$.
 \end{itemize}
 
@@ -226,10 +228,10 @@ Log-Loss: $- \frac{1}{N}  \sum_{n=1}^{N} y_n \log(\hat{p_n}) + (1-y_n) \log(1-\h
 % ----------
 \section{Probabilistic framework}
 The Likelihood Function maps the model parameters to the probability distribution of $\bf{y}$:
-$\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \bf{\beta} \mapsto p(\bf{y} \mid  \bf{\beta})$
-An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\bf{y} \mid \beta) = \prod_n p(y_n \mid \beta)$.
+$\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \bbeta \mapsto p(\bf{y} \mid  \bbeta)$
+An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\bf{y} \mid \bbeta) = \prod_n p(y_n \mid \bbeta)$.
 
-$\mathcal{L}_{lik}$ can be viewed as just another cost function. Maximum likelihood then simply chooses the parameters $\bf{\beta}$ such that observed data is most likely. $\beta = \argmax_{\text{all} \beta} L(\beta)$
+$\mathcal{L}_{lik}$ can be viewed as just another cost function. Maximum likelihood then simply chooses the parameters $\bbeta$ such that observed data is most likely. $\bbeta = \argmax_{\text{all} \bbeta} L(\bbeta)$
 
 Assuming different $p$ is basically what makes this so flexible. We can chose e.g.:
 
@@ -241,14 +243,14 @@ Assuming different $p$ is basically what makes this so flexible. We can chose e.
 \end{tabular}
 
 It is a sample approximation of the expected likelihood:
-$\mathcal{L}_{lik}(\boldsymbol{\beta}) \approx E_y[ p(y \mid  \boldsymbol{\beta}) ]$
+$\mathcal{L}_{lik}(\bbeta) \approx E_y[ p(y \mid \bbeta) ]$
 
 \subsection{Bayesian methods}
 Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
 
 The \textbf{prior} $p(\bf{f}|\bf{X})$ encodes our prior belief about the ``true'' model $\bf{f}$. The \textbf{likelihood} $p(\bf{y}|\bf{f})$ measures the probability of our (possibly noisy) observations given the prior.
 
-Least-squares tries to find model parameters $\bf{\beta}$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\bf{\beta}|\bf{y})$
+Least-squares tries to find model parameters $\bbeta$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\bbeta|\bf{y})$
 
 \subsection{Bayesian networks}
 We can use a Directed Acyclic Graph (DAG) to define a joint distribution of events. For example, we can express the relationship between \textit{latent factors} (possible ``causes'') $z_i$ and \textit{observations} (results) $y_i$:
@@ -348,13 +350,13 @@ NN are universal density estimators, and thus prone to severe overfitting. Techn
 Search for the hyperplane separating the data such that the gap (margin) is biggest.
 It minimizes the following cost function (``hinge loss''):
 
-$\mathcal{L}_{SVM} (\bf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
+$\mathcal{L}_{SVM} (\bbeta)= \sum_{n=1}^N [1 - y_n \tilde\phi_n \bbeta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
 
 with $[t]_{+} = \max(0, t)$
 
 This is convex but not differentiable. In the dual, the same problem can be formulated as:
 
-$\max_{\alpha \in [0; C]^N} \alpha^T 1 - 1/2 \alpha^T Y K Y \alpha , \alpha^T y = 0$
+$\max_{\alpha \in [0; C]^N} \balpha^T \bf{1} - \frac{1}{2} \balpha^T \bf{Y K Y} \balpha , \quad \balpha^T \bf{y} = 0$
 
 % ----------
 \section{Gaussian Mixture Models}
@@ -425,16 +427,16 @@ Or in other words, the volume of the space increases so fast that the available 
 
 \subsection{Primal vs. Dual}
 Instead of working in the \textbf{column space} of our data, we can work in the \textbf{row space}:
-$$\bf{\hat{y} = X \beta = X X^T \alpha = K \alpha}$$
-where $\bf{\beta} \in \mathbb{R}^D$ and $\bf{\alpha} \in \mathbb{R}^N$
+$$\bf{\hat{y} = X \bbeta = X X^T \balpha = K \balpha}$$
+where $\bbeta \in \mathbb{R}^D$ and $\balpha \in \mathbb{R}^N$
 and (like magic) $\bf{K}$ shows up, the Kernel Matrix.
 
-Representer Theorem: For any $\bf{\beta}$ minimizing
-$$\min_\beta \sum_{n=1}^N \mathcal{L}(y_n, \bf{x}_n^T \bf{\beta}) + \sum_{d=1}^D \lambda \beta_d^2$$
-there exists an $\bf{\alpha}$ such that $\bf{\beta = X^T \alpha}$.
+Representer Theorem: For any $\bbeta$ minimizing
+$$\min_\beta \sum_{n=1}^N \mathcal{L}(y_n, \bf{x}_n^T \bbeta) + \sum_{d=1}^D \lambda \beta_d^2$$
+there exists an $\balpha$ such that $\bbeta = \bf{X}^T \balpha$.
 
-When we have an explicit vector formulation of $\beta$, we can use the matrix inversion lemma to get to the dual. E.g. for ridge regression:
-$$\beta = (X^T X  + \lambda I_D)^{-1} X^T y = X^T \underbrace{(X X^T + \lambda I_N)^{-1} y}_{\alpha}$$
+When we have an explicit vector formulation of $\bbeta$, we can use the matrix inversion lemma to get to the dual. E.g. for ridge regression:
+$$\bbeta = (\bf{X}^T \bf{X}  + \lambda \bf{I}_D)^{-1} \bf{X}^T \bf{y}= \bf{X}^T \underbrace{(\bf{X X}^T + \lambda \bf{I}_N)^{-1} \bf{y}}_{\balpha}$$
 
 In optimization, we get to the dual like this:
 \begin{colfig}
@@ -448,7 +450,7 @@ An estimator is said to be consistent, if it eventually recovers the true parame
 
 \subsection{Efficiency}
 An estimator is called efficient if it achives the Cramer-Rao lower bound:
-$\Var{(\beta)} \geq 1/I(\beta)$, where I is the Fisher information.
+$\Var{(\bbeta)} \geq 1/I(\bbeta)$, where I is the Fisher information.
 
 \subsection{Occam's Razor}
 It states that among competing hypotheses, the one with the fewest assumptions should be selected. Other, more complicated solutions may ultimately prove correct, but in the absence of certainty, the fewer assumptions that are made, the better.
