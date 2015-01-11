@@ -20,6 +20,7 @@
 \newcommand{\Cov}{\mathrm{Cov}}
 \newcommand{\bbeta}{\boldsymbol\beta}
 \newcommand{\bdelta}{\boldsymbol\delta}
+\newcommand{\btheta}{\boldsymbol\theta}
 
 \pdfinfo{
   /Title (Machine Learning Cheat Sheet)
@@ -55,7 +56,7 @@
 % ----------
 \section{General}
 \subsection{Dataset and Definitions}
-$\mathcal{D}$ is a set of training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\bf{x}_n = \begin{bmatrix} x_{n1} \quad x_{n2} \quad ... \quad x_{nD} \end{bmatrix}^T$
+$\mathcal{D}$ is a set of training examples, the n-th Training Example ($n = 1,2, ..., N$), of this set is: $\bf{x}_n = \begin{bmatrix} x_{n1} \quad x_{n2} \quad ... \quad x_{nD} \end{bmatrix}$
 
 We write all N training examples in a matrix: $\bf{X} = \begin{bmatrix} \bf{x}_1 ; \quad \bf{x}_2 ; \quad ... ; \quad \bf{x}_N \end{bmatrix}$
 
@@ -76,16 +77,28 @@ Poisson distribution: $\mathcal{P}(X| \lambda)$ \\
 $\implies p(X = k) = \frac{\lambda ^ k}{k!} \exp{(- \lambda)}$
 
 \subsection{Properties}
-Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
+\textbf{Bayes rule}: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
 
-A matrix $\bf{M}$ is positive semidefinite $\iff \forall$ nonzero vector $\bf{a}$, we have $\bf{a}^T \bf{M} \bf{a} \geq 0$
+A matrix $\bf{M}$ is \textbf{positive semidefinite} $\iff \forall$ nonzero vector $\bf{a}$, we have $\bf{a}^T \bf{M} \bf{a} \geq 0$
 
-Jensen's inequality applied to $\log$: $\log( \mathbb{E}[X] ) \geq \mathbb{E}[\log(X)]$ \\
+\textbf{Jensen's inequality} applied to $\log$: $\log( \mathbb{E}[X] ) \geq \mathbb{E}[\log(X)]$ \\
 $\implies \log ( \sum_x x \cdot p(x) ) \geq \sum_x p(x) \log(x)$
 
-Matrix inversion lemma: $(\bf{PQ} + \bf{I}_N)^{-1} \bf{P} = \bf{P}(\bf{QP} + \bf{I}_M)^{-1}$
+\textbf{Matrix inversion lemma}: $(\bf{PQ} + \bf{I}_N)^{-1} \bf{P} = \bf{P}(\bf{QP} + \bf{I}_M)^{-1}$
 
-Second order derivative: $\frac{\partial \bf{x^T B x}}{\partial \bf{x}} = (\bf{B + B^T}) \bf{x}$
+Useful derivative: $\frac{\partial \bf{x^T B x}}{\partial \bf{x}} = (\bf{B + B^T}) \bf{x}$
+
+Marginal and Conditional Gaussians:
+$$
+\begin{aligned}
+p(\bf{x}) &= \mathcal{N}(\bf{x} | \boldsymbol\mu, \boldsymbol\Lambda^-1) \\
+p(\bf{y}|\bf{x}) &= \mathcal{N}(\bf{y} | \bf{Ax + b, L}^-1) \\
+\Downarrow \\
+p(\bf{y}) &= \mathcal{N}(\bf{y} | \bf{A} \boldsymbol\mu + \bf{b}, \bf{L}^-1 + \bf{A} \boldsymbol\Lambda^-1 \bf{A}^T)	\\
+p(\bf{x}|\bf{y}) &= \mathcal{N}(\bf{x} |\boldsymbol\Sigma \{ \bf{L(y - b) + \Lambda \mu} \}, \boldsymbol\Sigma) \\
+\text{where } \boldsymbol\Sigma &= (\boldsymbol\Lambda + \bf{A^T L A})^{-1}
+\end{aligned}
+$$
 
 % ----------
 \section{Optimization methods}
@@ -117,15 +130,15 @@ Complexity: $\mathcal{O}(I N D^2 + I D^3)$, with the $D^3$ cost coming from the 
 \subsection{Expectation-Maximization}
 EM is a family of methods to find a MLE/MAP estimator if some of the data is missing (e.g. latent variables):
 
-Given is some data $\bf{x}$ and  a model with some latent variables $\bf{z}$ and a likelihood $\mathcal{L}(\beta | \bf{x}, \bf{z})$ (e.g. a gaussian where we need to find the mean and the covariance).
-Goal is to find $\beta = \argmax_{\beta} \mathcal{L}_{lik}(\beta | x)$, i.e. the MLE given only the data, without knowing the latent variables.
+Given is some data $\bf{x}$ and  a model with some latent variables $\bf{z}$ and a likelihood $\mathcal{L}(\btheta; \bf{x}, \bf{z})$ (e.g. a gaussian where we need to find the mean and the covariance).
+Goal is to find $\beta = \argmax_{\beta} \mathcal{L}_{lik}(\btheta; x)$, i.e. the MLE given only the data, without knowing the latent variables.
 
-The problem is, that this likelihood can oftentimes not be optimized in closed form with respect to $\beta$.
+The problem is, that this likelihood can oftentimes not be optimized in closed form with respect to $\btheta$.
 
-The solution is EM: Iteratively find better $\beta$, start with $\beta_0$ and iterate with variable $t$:
+The solution is EM: Iteratively find better $\btheta$, start with $\btheta_0$ and iterate with variable $t$:
 \begin{itemize}
-\item E-step: $Q(\beta, \beta_t) = E_{\beta_t} [ log ( p(\bf{X}, \bf{Z} | \beta) | X = x ]$
-\item M-step: $\beta_{t+1} = \argmax_\beta Q(\beta, \beta_t)$
+\item E-step calculates the $\mathbb{E}$ of log likelihood, with respect to $\bf{Z}$ given $\bf{X}$ under the current estimate $\btheta_t$: $Q(\btheta, \btheta_t) = \mathbb{E}_{\bf{Z}|\bf{X},\btheta_t} [ log ( p(\bf{X}, \bf{Z} | \btheta) | X = x ]$
+\item M-step finds next estimate that maximizes: $\btheta_{t+1} = \argmax_{\btheta} Q(\btheta, \btheta_t)$
 \item Iterate until convergence.
 \end{itemize}
 
@@ -136,16 +149,18 @@ Simple linear regression: $y_n \approx \beta_0 + \beta_1 x_{n1}$
 Multiple linear regression: $y_n \approx f(\bf{x}_n) := \beta_0 + \beta_1 x_{n1} + \beta_2 x_{n2} + ... + \beta_D x_{nD}$
 
 \subsection{Linear basis function model}
+We can create more complex models while staying in the linear framework by transforming the inputs $X$ of dimensionality $D$ through a function $\phi : D \rightarrow M$.
+
 $y_n = \beta_0 + \sum_{i=1}^{M} \beta_i \phi_i(\bf{x_n}) =  \bf{\tilde\phi^T}(\bf{x}^T_n) \bbeta$.
-The optimal $\beta$ is given by $\beta = ( \tilde{\Phi}^T \tilde{\Phi})^{-1} \tilde{\Phi}^T y$ where $\tilde{\Phi}$ is a matrix with N rows and the n-th row is $[1, \phi_1(x_n)^T,  ...,  \phi_M(x_n)^T]$.
+The optimal $\beta$ can be computed in closed form by $\beta = ( \tilde{\Phi}^T \tilde{\Phi})^{-1} \tilde{\Phi}^T y$ where $\tilde{\Phi}$ is a matrix with N rows and the n-th row is $[1, \phi_1(x_n)^T,  ...,  \phi_M(x_n)^T]$. But note this requires $\tilde{\Phi}^T \tilde{\Phi}$ to be invertible (well-conditionned: $\tilde\phi$ full column-rank).
 
 Ridge regression: $\beta_{ridge} = ( \tilde{\boldsymbol\Phi}^T \tilde{\boldsymbol\Phi} + \lambda \boldsymbol I)^{-1} \tilde{\boldsymbol\Phi}^T \boldsymbol y$
 
 \subsection{Cost functions}
-\begin{colfig}
-\centering
-\includegraphics[width=\linewidth]{images/error-functions.png}
-\end{colfig}
+%\begin{colfig}
+%\centering
+%\includegraphics[width=\linewidth]{images/error-functions.png}
+%\end{colfig}
 
 Cost function / Loss: $\mathcal{L}(\bbeta) = \mathcal{L}(\mathcal{D},\bbeta)$
 
@@ -174,39 +189,42 @@ Complexity: $\mathcal{O}(ND^2 + D^3)$
 The gradient of the MSE set to zero is called the normal equation:
 $$ - \bf{y^T X} + \bf{X^T X \bbeta} = 0$$
 We can solve this for $\beta$ directly (by matrix manipulation)
-$\bpbeta = ( \bf{\tilde{X}}^T \bf{\tilde{X}} )^{-1} \bf{\tilde{X}}^T y$
+$\bbeta = ( \bf{\tilde{X}}^T \bf{\tilde{X}} )^{-1} \bf{\tilde{X}}^T y$
 
 % ----------
 \section{Classification}
-Logistic Function $\sigma = \frac{exp(x)}{1+exp(x)}$
+Logistic Function: $\sigma(t) = \frac{exp(t)}{1+exp(t)}$\\
+Derivative: $\frac{ \partial\sigma(t) }{ \partial t } = \sigma(t)[ 1 - \sigma(t) ]$
 
-Classification with linear regression: Use $y = 0$ as class $\mathcal{C_1}$
-and $y = 1$ as class $\mathcal{C_2}$ and then decide a newly estimated $y$ belongs
-to $\mathcal{C_1}$ if $y < 0.5$.
+Classification with linear regression: Use $y = 0$ as class $\mathcal{C}_1$
+and $y = 1$ as class $\mathcal{C}_2$ and then decide a newly estimated $y$ belongs
+to $\mathcal{C}_1$ if $y < 0.5$.
 
 \subsection{Logistic Regression}
-$\tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - y] = 0$
+$\frac{ \partial\mathcal{L}(\bbeta) }{ \partial \bbeta } = \tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \beta) - \bf{y}]$
+
+There's no closed form, we can use gradient descent.
 
 \subsection{Generalized linear model}
 The GLM consists of three elements:
 \begin{itemize}
-	\item A probability distribution from the exponential family.
-    \item A linear predictor $\hat y = \bf{X} \bf{\beta}$ .
-    \item A link function g such that $E(y) = μ = g^{-1}(η)$.
+  \item A probability distribution from the exponential family.
+  \item A linear predictor $\hat y = \bf{X} \bf{\beta}$ .
+  \item A link function g such that $E(y) = \mu = g^{-1}(\eta)$.
 \end{itemize}
 
 In a generalized linear model (GLM), each outcome of the dependent variables $y$ is assumed to be generated from a particular distribution in the exponential family, a large range of probability distributions that includes the normal, binomial, Poisson and gamma distributions, among others.
 
 
 \subsection{Cost functions}
-Root Mean square error (RMSE): $\sqrt{\frac{1}{N} \sum_{n=1}^{N}\left[y_n- \hat{p_n} \right]^2}$
+RMSE: $\sqrt{\frac{1}{N} \sum_{n=1}^{N}\left[y_n- \hat{p_n} \right]^2}$
 
 0-1 Loss: $ \frac{1}{N} \sum_{n=1}^{N} \delta(y_n, \hat{y_n})$
 
-logLoss: $- \frac{1}{N}  \sum_{n=1}^{N} y_n \log(\hat{p_n}) + (1-y_n) \log(1-\hat{p_n})$
+Log-Loss: $- \frac{1}{N}  \sum_{n=1}^{N} y_n \log(\hat{p_n}) + (1-y_n) \log(1-\hat{p_n})$
 
 % ----------
-\section{Maximum Likelihood}
+\section{Probabilistic framework}
 The Likelihood Function maps the model parameters to the probability distribution of $\bf{y}$:
 $\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \bf{\beta} \mapsto p(\bf{y} \mid  \bf{\beta})$
 An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\bf{y} \mid \beta) = \prod_n p(y_n \mid \beta)$.
@@ -225,8 +243,7 @@ Assuming different $p$ is basically what makes this so flexible. We can chose e.
 It is a sample approximation of the expected likelihood:
 $\mathcal{L}_{lik}(\boldsymbol{\beta}) \approx E_y[ p(y \mid  \boldsymbol{\beta}) ]$
 
-% ----------
-\section{Bayesian methods}
+\subsection{Bayesian methods}
 Bayes rule: $p(A, B) = p(A|B) p(B) = p(B|A) p(A)$
 
 The \textbf{prior} $p(\bf{f}|\bf{X})$ encodes our prior belief about the ``true'' model $\bf{f}$. The \textbf{likelihood} $p(\bf{y}|\bf{f})$ measures the probability of our (possibly noisy) observations given the prior.
@@ -234,14 +251,14 @@ The \textbf{prior} $p(\bf{f}|\bf{X})$ encodes our prior belief about the ``true'
 Least-squares tries to find model parameters $\bf{\beta}$ which maximize the likelihood. Ridge regression maximizes the \textbf{posterior} $p(\bf{\beta}|\bf{y})$
 
 \subsection{Bayesian networks}
-We can use a Directed Acyclic Graph (DAG) to define a joint distribution of events. For example, we can express the relationship between \textit{latent factors} $z_i$ and \textit{observations} $y_i$:
+We can use a Directed Acyclic Graph (DAG) to define a joint distribution of events. For example, we can express the relationship between \textit{latent factors} (possible ``causes'') $z_i$ and \textit{observations} (results) $y_i$:
 
 \begin{colfig}
   \centering
   \includegraphics[height=1.5cm]{images/bayesian-network.png}
 \end{colfig}
 
-The joint can then be factorized as follows:
+This example can be factorized as follows:
 $p(y_1, y_2, z_1, z_2, z_3) = p(y_1 | z_1, z_2) p(y_2 | z_2, z_3) p(z_1) p(z_2) p(z_3)$
 
 We can then obtain the distribution over latent factors ($z_i$) by marginalizing over the unknown variables:
@@ -257,7 +274,7 @@ $m_{y_j \rightarrow z_i} = \sum_{z_k \neq z_i} p(y_j | z_k) \Pi(\text{messages r
 
 % ----------
 \section{Kernel methods}
-Basically, Kernels are a mean to measure distance, or ``similarity'' of two vectors. We define:
+Kernels are another way to encode our prior believe about the relation of outputs to inputs. A kernel defines a distance measure, or ``similarity'' of two vectors. We define:
 
 $(\bf{K})_{i,j} = \kappa(\bf{x_i}, \bf{x_j}) = \vec \phi(\bf{x_i})^T \vec \phi(\bf{x_j})$.
 
@@ -275,9 +292,35 @@ The $\phi$ are not that important in the end, because we only use the Kernel as 
 
 Properties of a Kernel:
 \begin{itemize}
-\item $\bf{K}$ should be symmetric.
+\item $\bf{K}$ should be symmetric: $\bf{K}^T = \bf{K}$
 \item $\bf{K}$ should be positive semi-definite: $\forall$ nonzero vector $\bf{a}, \bf{a}^T \bf{K} \bf{a} \geq 0$.
 \end{itemize}
+
+\subsection{Gaussian Process}
+The predicting function $f$ is interpreted as a random variable with jointly gaussian prior: $\mathcal{N}(f | \bf{0}, \bf{K})$.
+Defining the Kernel matrix $\bf{K} = \kappa(\bf{X}, \bf{X})$ defines the prior. The key idea is, that if $\bf{x}_i$ and $\bf{x_j}$ are
+deemed by the kernel to be similar, then we expect the output of $f$ at those points to be similar, too.
+
+We can sample functions from this random variable $f$ and we can use prior + measurements to generate predictions.
+
+If we have measurements $\bf{y}$ available, we get a joint distribution with the $\bf{\hat{y}}$ to be predicted:
+
+$
+\begin{bmatrix}
+  \bf{y} \\
+  \bf{\hat{y}}
+\end{bmatrix}
+=
+\mathcal{N} \left(
+  \bf{0},
+  \begin{bmatrix}
+    \kappa(\bf{X}, \bf{X}) + \sigma_n^2 I  & \kappa(\bf{X}, \bf{\hat{X}}) \\
+    \kappa(\bf{\hat{X}}, \bf{X}),          & \kappa(\bf{\hat{X}}, \bf{\hat{X}})
+  \end{bmatrix}
+\right)
+$
+
+This can be conditioned on $\bf{y}$ to find the PDF of $\bf{\hat{y}}$. Advantage: we output our prediction as probabilities (which represent uncertainty).
 
 % ----------
 \section{Neural Networks}
@@ -291,7 +334,7 @@ It's an algorithm which computes the gradient of the cost $\mathcal{L}$ w.r.t. t
 Forward pass: compute $a_i$, $z_i$ and $\bf{y}_n$ from $\bf{x}_n$.
 
 Backward pass: work out derivatives from outputs to the target $\bbeta_i^{(k)}$. Using the chain rule:\\
-$\bdelta^{(k-1)} = \frac{\partial \mathcal{L}}{\partial \bf{a}^{(k-1)}} = diag[ h'(\bf{a}^{(k-1)}) ] \bf{B^{(k)T}} \bdelta^{(k-1)}$\\
+$\bdelta^{(k-1)} = \frac{\partial \mathcal{L}}{\partial \bf{a}^{(k-1)}} = diag[ h'(\bf{a}^{(k-1)}) ] \bf{B^{(k)T}} \bdelta^{(k)}$\\
 $\frac{\partial \mathcal{L}}{\partial \bf{B}^{(1)}} = \bdelta^{(1)} \bf{x}^T$\\
 $\frac{\partial \mathcal{L}}{\partial \bf{B}^{(k)}} = \bdelta^{(k)} \bf{z}^{(k)T}$
 
@@ -302,57 +345,54 @@ NN are universal density estimators, and thus prone to severe overfitting. Techn
 
 % ----------
 \section{Support Vector Machines}
-Search for the hyperplane separating the data such that the gap is biggest.
-It minimizes the following cost function:
+Search for the hyperplane separating the data such that the gap (margin) is biggest.
+It minimizes the following cost function (``hinge loss''):
 
 $\mathcal{L}_{SVM} (\bf{\beta})= \sum_{n=1}^N [1 - y_n \tilde\phi_n \beta]_{+} + \frac{\lambda}{2} \sum_{j=1}^M \beta_j^2$
+
+with $[t]_{+} = \max(0, t)$
 
 This is convex but not differentiable. In the dual, the same problem can be formulated as:
 
 $\max_{\alpha \in [0; C]^N} \alpha^T 1 - 1/2 \alpha^T Y K Y \alpha , \alpha^T y = 0$
 
-\section{Gaussian Process}
-The predicting function $f$ is interpreted as a random variable with jointly gaussian pdf (the prior) $\mathcal{N}(f | \bf{0}, \bf{K})$.
-Defining the Kernel matrix $\bf{K} = \kappa(\bf{X}, \bf{X})$ defines the prior. The key idea is, that if $\bf{x}_i$ and $\bf{x_j}$ are
-deemed by the kernel to be similar, then we expect the output of $f$ at those points to be similar, too.
-
-We can sample functions from this random variable $f$ and we can use prior + measurements to generate predictions.
-
-If we have measurements $\bf{y}$ available, we get a joint distribution with the $\bf{\hat{y}}$ to be predicted:
-
-$\begin{bmatrix} \bf{y} \\ \bf{\hat{y}} \end{bmatrix} = \mathcal{N}(\bf{0},
-\begin{bmatrix} 	\kappa(\bf{X}, \bf{X}) + \sigma_n^2 I 		& \kappa(\bf{X}, \bf{\hat{X}}) \\
-						\kappa(\bf{\hat{X}}, \bf{X}),							& \kappa(\bf{\hat{X}}, \bf{\hat{X}})
-\end{bmatrix}$
-
-This can be conditioned on $\bf{y}$ to find the pdf of $\bf{\hat{y}}$.
-
+% ----------
 \section{Gaussian Mixture Models}
 In mixture models, the data is generated by a sum (a mix) of $K$ models. For GMM, these are gaussian:
 
 $p(\bf{x}_i | \theta) = \sum_{k=1}^K \pi_k p_k(\bf{x}_i | \theta) =  \sum_{k=1}^K \pi_k \mathcal{N}(\bf{x}_i | \underbrace{\bf{\mu}_k, \bf{\Sigma}_k}_{\theta})$
 
-To use this for clustering, we first fit this mixture and then compute the posterior $p(z_i = k | \bf{x}_i, \theta)$.
+To use this for clustering, we first fit this mixture and then compute the posterior $p(z_i = k | \bf{x}_i, \theta)$. This yields \textit{soft} cluster assignments.
 
-\section{PCA and SVD}
-Finds the eigenvectors of the covariance matrix of the data. These form an orthonormal basis $\{ \bf{w}_1, ..., \bf{w}_N\}$ for the data in the directions that have highest variance. 
-One can then use the first $L < D$ vectors to rebuild the data: $\bf{\hat{x}}_i = \bf{W} \bf{z}_i = \bf{W} \bf{W}^T \bf{x}_i$, with $\bf{W} = \begin{bmatrix} \bf{w}_1 \\ ... \\ \bf{w}_L \end{bmatrix}$. 
+% ----------
+\section{PCA}
+Find the eigenvectors of the covariance matrix $\bf{X^T X}$ of the data. These form an orthonormal basis $\{ \bf{w}_1, ..., \bf{w}_N\}$ for the data in the directions that have highest variance.
+One can then use the first $L < D$ vectors to rebuild the data: $\bf{\hat{x}}_i = \bf{W} \bf{z}_i = \bf{W} \bf{W}^T \bf{x}_i$, with $\bf{W} = \begin{bmatrix} \bf{w}_1 ; ... ; \bf{w}_L \end{bmatrix}$.
 This minimizes mean square error $\frac{1}{N} \sum_{i=1}^N \bf{x}_i - \bf{\hat{x}}_i^2$.
-\todo[inline]{Connection to SVD}
 
+\section{SVD}
+The same as with PCA, we can do with SVD:
+\begin{colfig}
+  \centering
+  \includegraphics[width=\linewidth]{images/svd.png}
+\end{colfig}
+
+The singular vals of a $N \times D$ matrix $\bf{X}$ are the square roots of the eigenvalues of the $D \times D$ matrix $\bf{X^T X}$
+% ----------
 \section{Concepts}
-% ----------
-\subsection{Occam's Razor}
-It states that among competing hypotheses, the one with the fewest assumptions should be selected. Other, more complicated solutions may ultimately prove correct, but—in the absence of certainty—the fewer assumptions that are made, the better.
 
-% ----------
+\subsection{Convexity}
+f is called convex f: $\forall x_1, x_2 \in X, \forall t \in [0, 1]: \qquad f(tx_1+(1-t)x_2)\leq t f(x_1)+(1-t)f(x_2).$
+
+Sum of two convex functions is convex. Composition of a convex function with a convex, nondecreasing function is convex. Linear, exponential and $\log(\sum \exp)$ functions are convex.
+
 \subsection{Bias-Variance Decomposition}
 \begin{colfig}
   \centering
   \includegraphics[width=\linewidth]{images/bias-variance.png}
 \end{colfig}
 
-Bias-variance come directly out of the test error:
+Bias-variance comes directly out of the test error:
  \begin{align*}
  \overline{teErr}
  &= E[(\text{observation} - \text{prediction})^2] = E[(y - \hat{y})^2] \\
@@ -366,36 +406,25 @@ Bias-variance come directly out of the test error:
                           & bias & variance \\
   \hline
   regularization          & +    & - \\
-  reduce model complexity & +    & - \\
+  choose simpler model    & +    & - \\
   more data               & -    & \\
   \hline
 \end{tabular}
-
-\subsection{Consistency}
-An estimator is said to be consistent, if it eventually recovers the true parameters that generated the data as the sample size goes to infinity. Of course, this only makes sense if the data actually comes from the specified model, which is not usually the case. Nevertheless, it can be a useful theoretical property.
-
-\subsection{Convexity}
-f is called convex f: $\forall x_1, x_2 \in X, \forall t \in [0, 1]: \qquad f(tx_1+(1-t)x_2)\leq t f(x_1)+(1-t)f(x_2).$
-
-Sum of two convex functions is convex. Composition of a convex function with a convex, nondecreasing function is convex. Linear, exponential and $\log(\sum \exp)$ functions are convex.
-
-\subsection{Efficiency}
-An estimator is called efficient if it achives the Cramer-Rao lower bound:
-$\Var{(\beta)} \geq 1/I(\beta)$, where I is the fisher information.
 
 \subsection{Identifiability}
 We say that a statistical model $\mathcal{P} = \{P_\theta: \theta \in \Theta\}$ is identifiable if the mapping $\theta \mapsto P_\theta$ is one-to-one:
 $P_{\theta_1}=P_{\theta_2} \quad\Rightarrow\quad \theta_1=\theta_2 \quad\ \text{for all } \theta_1,\theta_2\in\Theta.$
 
+A non-identifiable model will typically have many local optima yielding the same cost, e.g. $\mathcal{L}(W, Z) = \mathcal{L}(aW, \frac{1}{a} Z)$
 
 \subsection{Curse of dimensionality}
-The main reason behind the curse is that, with the dimensionality increase, every data point becomes arbitrarily far
+With the dimensionality increase, every data point becomes arbitrarily far
 from every other data point and therefore the choice of nearest neighbor becomes random.
 In high dimension, data only covers a tiny fraction of the input space, making generalization extremely difficult.
 Or in other words, the volume of the space increases so fast that the available data become sparse.
 
 \subsection{Primal vs. Dual}
-Instead of working in the column space of our data, we can work in the row space:
+Instead of working in the \textbf{column space} of our data, we can work in the \textbf{row space}:
 $$\bf{\hat{y} = X \beta = X X^T \alpha = K \alpha}$$
 where $\bf{\beta} \in \mathbb{R}^D$ and $\bf{\alpha} \in \mathbb{R}^N$
 and (like magic) $\bf{K}$ shows up, the Kernel Matrix.
@@ -413,16 +442,34 @@ In optimization, we get to the dual like this:
   \includegraphics[width=\linewidth]{images/prim-dual.png}
 \end{colfig}
 
-\todo[inline]{k-fold cross-validation, definition of Test-Error, Train-Error}
+% ----- Less useful concepts
+\subsection{Consistency}
+An estimator is said to be consistent, if it eventually recovers the true parameters that generated the data as the sample size goes to infinity. Of course, this only makes sense if the data actually comes from the specified model, which is not usually the case. Nevertheless, it can be a useful theoretical property.
+
+\subsection{Efficiency}
+An estimator is called efficient if it achives the Cramer-Rao lower bound:
+$\Var{(\beta)} \geq 1/I(\beta)$, where I is the Fisher information.
+
+\subsection{Occam's Razor}
+It states that among competing hypotheses, the one with the fewest assumptions should be selected. Other, more complicated solutions may ultimately prove correct, but in the absence of certainty, the fewer assumptions that are made, the better.
+
+\todo[inline]{TODO: K-fold cross-validation, definition of Test-Error, Train-Error}
 
 \todo[inline]{TODO: statistical goodness (robust to outliers, ...) vs. computational goodness (convex, low computational complexity, ...) tradeoff. No free lunch theorem.}
 
-\todo[inline]{Decision Trees and Random Forests and Model averaging}
+\todo[inline]{TODO: Decision Trees and Random Forests and Model averaging}
+
+% ---------- Credits
+\section{Credits}
+Most material was taken from the lecture notes of \href{http://people.epfl.ch/228491}{Prof. Emtiyaz Khan}.\\
+Cost functions figure from Patrick Breheny's slides.\\
+Biais-variance decomposition figure from Hastie, Tibshirani, Friedman, \textit{The Elements of Statistical Learning}.
+The SVD figure from Kevin P. Murphy, \textit{Machine Learning, A Probabilistic Perspective}.
 
 % ---------- Footer
 \hrule
 \tiny
-Rendered \today. Written by Dennis Meier and Merlin Nimier-David. Most material was taken from the lecture notes of \href{http://people.epfl.ch/228491}{Prof. Emtiaz Khan}.
+Rendered \today. Written by Dennis Meier and Merlin Nimier-David.
 \copyright Dennis Meier. This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License.
 To view a copy of this license, visit \href{http://creativecommons.org/licenses/by-sa/3.0/}{http://creativecommons.org/licenses/by-sa/3.0/} or
 send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
