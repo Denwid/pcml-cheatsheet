@@ -14,7 +14,7 @@
 \input{style.tex}
 
 % Shorthands
-\providecommand{\bf}[1]{\ensuremath{\mathbf{#1}}}
+\renewcommand{\bf}[1]{\ensuremath{\mathbf{#1}}}
 \newcommand{\E}{\mathrm{E}}
 \newcommand{\Var}{\mathrm{Var}}
 \newcommand{\Cov}{\mathrm{Cov}}
@@ -189,7 +189,7 @@ $\mathcal{L}_{\epsilon}(y, \hat{y}) = \begin{cases}
 \section{Least squares}
 Complexity: $\mathcal{O}(ND^2 + D^3)$
 The gradient of the MSE set to zero is called the normal equation:
-$$ - \bf{y^T X} + \bf{X^T X \bbeta} = 0$$
+$$ - \bf{y}^T \bf{X} + \bf{X}^T \bf{X} \bbeta = 0$$
 We can solve this for $\bbeta$ directly (by matrix manipulation)
 $\bbeta = ( \bf{\tilde{X}}^T \bf{\tilde{X}} )^{-1} \bf{\tilde{X}}^T \bf{y}$
 
@@ -432,7 +432,7 @@ where $\bbeta \in \mathbb{R}^D$ and $\balpha \in \mathbb{R}^N$
 and (like magic) $\bf{K}$ shows up, the Kernel Matrix.
 
 Representer Theorem: For any $\bbeta$ minimizing
-$$\min_\beta \sum_{n=1}^N {\mathcal{L}}(y_n, \bf{x}_n^T \bbeta) + \sum_{d=1}^D \lambda \beta_d^2$$
+$$\min_\beta \sum_{n=1}^N \mathcal{L}(y_n, \bf{x}_n^T \bbeta) + \sum_{d=1}^D \lambda \beta_d^2$$
 there exists an $\balpha$ such that $\bbeta = \bf{X}^T \balpha$.
 
 When we have an explicit vector formulation of $\bbeta$, we can use the matrix inversion lemma to get to the dual. E.g. for ridge regression:
