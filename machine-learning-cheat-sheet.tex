@@ -191,7 +191,7 @@ $\mathcal{L}_{\epsilon}(y, \hat{y}) = \begin{cases}
 \section{Least squares}
 Complexity: $\mathcal{O}(ND^2 + D^3)$
 The gradient of the MSE set to zero is called the normal equation:
-$$ - \bf{y}^T \bf{X} + \bf{X}^T \bf{X} \bbeta = 0$$
+$$  \bf{X}^T \bf{X} \bbeta - \bf{X}^T \bf{y} = 0$$
 We can solve this for $\bbeta$ directly (by matrix manipulation)
 $\bbeta = ( \bf{\tilde{X}}^T \bf{\tilde{X}} )^{-1} \bf{\tilde{X}}^T \bf{y}$
 
