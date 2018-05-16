@@ -474,7 +474,51 @@ It states that among competing hypotheses, the one with the fewest assumptions s
 
 \todo[inline]{TODO: statistical goodness (robust to outliers, ...) vs. computational goodness (convex, low computational complexity, ...) tradeoff. No free lunch theorem.}
 
+\section{Decision Trees and Random Forest}
+
 \todo[inline]{TODO: Decision Trees and Random Forests and Model averaging}
+
+\section{Recommender Systems}
+\begin{itemize}
+	\item Non-personalized
+	\item Personalized
+\end{itemize}
+\begin{colfig}
+	\centering
+	\includegraphics[width=\linewidth]{images/recommender-system-types.png}
+\end{colfig}
+\begin{colfig}
+	\centering
+	\includegraphics[width=\linewidth]{images/recommender-system-types-strengths.png}
+\end{colfig}
+
+
+\section{ML-Architecture}
+\begin{enumerate}
+	\item Data Sourcing: Preferably into normalized, indexed database
+	\item Feature Engineering: SQL queries or transformations to build features
+	\item Feature Loader: Function with parameters to load different Features, can be part of pipeline
+	\item Imputer \& Normalizer or other feature preprocessing
+	\item ML-Algorithm
+\end{enumerate}
+
+\subsection{One-Hot Encoding}
+Is a binarization of categorical variables. Each category gets it's own dimension. For example, go from this...
+\begin{verbatim}
+CompanyName	Categoricalvalue Price
+VW          1                20000
+Acura       2                10011
+Honda       3                50000
+Honda       3                10000
+\end{verbatim}
+to the following...
+\begin{verbatim}
+VW Acura Honda Price
+1  0     0     20000
+0  1     0     10011
+0  0     1     50000
+0  0     1     10000
+\end{verbatim}
 
 % ---------- Credits
 \section{Credits}
