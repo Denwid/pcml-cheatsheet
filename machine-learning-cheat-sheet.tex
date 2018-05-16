@@ -246,7 +246,7 @@ The Likelihood Function maps the model parameters to the probability distributio
 $\mathcal{L}_{lik}\colon \text{parameter space} \to [0;1]\quad  \bbeta \mapsto p(\bf{y} \mid  \bbeta)$
 An underlying $p$ is assumed before. If the observed $y$ are IID, $p(\bf{y} \mid \bbeta) = \prod_n p(y_n \mid \bbeta)$.
 
-$\mathcal{L}_{lik}$ can be viewed as just another cost function. Maximum likelihood then simply chooses the parameters $\bbeta$ such that observed data is most likely. $\bbeta = \argmax_{\text{all} \bbeta} L(\bbeta)$
+$\mathcal{L}_{lik}$ can be viewed as just another fitness function. Maximum likelihood then simply chooses the parameters $\bbeta$ such that observed data is most likely. $\bbeta = \argmax_{\text{all} \bbeta} L(\bbeta)$
 
 Assuming different $p$ is basically what makes this so flexible. We can chose e.g.:
 
