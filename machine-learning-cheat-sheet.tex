@@ -205,9 +205,22 @@ and $y = 1$ as class $\mathcal{C}_2$ and then decide a newly estimated $y$ belon
 to $\mathcal{C}_1$ if $y < 0.5$.
 
 \subsection{Logistic Regression}
-$\frac{ \partial\mathcal{L}(\bbeta) }{ \partial \bbeta } = \tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \bbeta) - \bf{y}]$
+Formally, the outcomes $Y_n$ are described as being Bernoulli-distributed data, where each outcome is determined by an unobserved probability $p_i$ that is specific to the outcome at hand, but related to the explanatory variables: $\mathbb{E}[Y_n\mid x_{1,i},\ldots,x_{m,i}] = p_i$.
 
-There's no closed form, we can use gradient descent.
+The model can then be formulated as: $p_i = \frac{1}{1+e^{-(\beta_0 + \beta_1 x_{1,i} + \cdots + \beta_k x_{k,i})}}.$
+
+
+There's no closed form, we can use gradient descent with gradient $\frac{ \partial\mathcal{L}(\bbeta) }{ \partial \bbeta } = \tilde{\bf{X}}^T [\sigma(\tilde{\bf{X}} \bbeta) - \bf{y}]$
+
+\subsubsection{Assumptions of Logistic Regression}
+\begin{itemize}
+	\item Target variable is binary.
+	\item Observations are independent.
+	\item Predictors not highly correlated.
+	\item Predictors and log odds are linearly related.
+	\item Large sample size ('Rule of 10'), i.e. minimum 10 cases with least frequent outcome for each predictor in the model.
+	\item \textit{Not assuming}: linearity, normality, homoscedasticity and measurement level.
+\end{itemize}
 
 \subsection{Generalized linear model}
 The GLM consists of three elements:
